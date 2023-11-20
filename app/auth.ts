@@ -1,4 +1,4 @@
-import NextAuth, { type Profile, type NextAuthOptions } from "next-auth";
+import NextAuth, { type Profile, type NextAuthConfig } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import PostgresAdapter from "@auth/pg-adapter";
 import { sql } from "@vercel/postgres";
@@ -18,7 +18,7 @@ const pool = new Pool({
   },
 });
 
-const authOptions: NextAuthOptions = {
+const authOptions: NextAuthConfig = {
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_ID as string,
@@ -38,7 +38,7 @@ const authOptions: NextAuthOptions = {
       return true
     },
   },
-  adapter: PostgresAdapter(pool) as NextAuthOptions["adapter"],
+  adapter: PostgresAdapter(pool) as NextAuthConfig["adapter"],
 };
 export const {
   handlers: { GET, POST },
