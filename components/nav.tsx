@@ -1,21 +1,10 @@
-import {
-    Avatar,
-    AvatarFallback,
-    AvatarImage,
-} from "@/components/ui/avatar"
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
 import Link from "next/link"
-import { Button } from "./ui/button"
+import ProfileAvatar from "./profile-avatar"
+import { auth } from "@/app/auth"
 
 
-export default function Nav() {
+export default async function Nav() {
+    const session = await auth()
     return (
         <nav className=" bg-gray-100 border-b-2 border-s-gray-300 text-slate-900 p-4 flex justify-between items-center">
             {/* Logo or Brand */}
@@ -36,24 +25,7 @@ export default function Nav() {
                     {/* Add more links as needed */}
                 </div>
             </div>
-            {/* Avatar/Profile Picture */}
-            <DropdownMenu>
-                <DropdownMenuTrigger>
-                    <Avatar>
-                        <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-                        <AvatarFallback>CN</AvatarFallback>
-                    </Avatar>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                    <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem>
-                        <Button variant={'ghost'}>
-                            Sign Out
-                        </Button>
-                    </DropdownMenuItem>
-                </DropdownMenuContent>
-            </DropdownMenu>
+            <ProfileAvatar/> 
         </nav>
     )
 }
