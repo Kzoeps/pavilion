@@ -19,8 +19,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={cn("min-h-screen bg-background font-sans antialiased", inter.variable)}>
-        <Nav/>
-        {children}
+        <Nav />
+        <section className=' min-h-screen flex-col p-24 justify-between items-center'>
+          {children}
+        </section>
       </body>
     </html>
   )

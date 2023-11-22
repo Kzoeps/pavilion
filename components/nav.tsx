@@ -14,8 +14,8 @@ export default async function Nav() {
 
                 {/* Links */}
                 <div className="flex items-center space-x-4">
-                    <Link href="#" className="hover:underline underline-offset-8">
-                        Home
+                    <Link href="/dashboard" className="hover:underline underline-offset-8">
+                       Dashboard 
                     </Link>
                     <Link href="#" className="hover:underline underline-offset-8">
                         About
