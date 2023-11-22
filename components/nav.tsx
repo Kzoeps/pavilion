@@ -1,6 +1,7 @@
 import Link from "next/link"
 import ProfileAvatar from "./profile-avatar"
-import { auth } from "@/app/auth"
+import { auth, signIn } from "@/app/auth"
+import { Button } from "./ui/button"
 
 
 export default async function Nav() {
@@ -25,7 +26,10 @@ export default async function Nav() {
                     {/* Add more links as needed */}
                 </div>
             </div>
-            <ProfileAvatar/> 
+            { session?.user ? <ProfileAvatar/>: <form action={async () => {
+                "use server"
+                await signIn("google", { redirectTo: '/como-estas'})
+            }}><Button>Sign In</Button></form> }
         </nav>
     )
 }

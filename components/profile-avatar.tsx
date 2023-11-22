@@ -1,14 +1,16 @@
 import { Avatar, AvatarImage, AvatarFallback } from "./ui/avatar";
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuItem } from "./ui/dropdown-menu";
 import { Button } from "./ui/button";
+import { auth } from "@/app/auth";
 
-export default function ProfileAvatar() {
+export default async function ProfileAvatar() {
+    const session = await auth(); 
     return (
         <DropdownMenu>
                 <DropdownMenuTrigger>
                     <Avatar>
-                        <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-                        <AvatarFallback>CN</AvatarFallback>
+                        <AvatarImage src={session?.user?.image as string | undefined} alt="user image"/>
+                        <AvatarFallback>{session?.user?.name}</AvatarFallback>
                     </Avatar>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
