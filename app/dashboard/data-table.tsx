@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/table"
 import { Button } from "@/components/ui/button"
 import { DataTablePagination } from "@/components/data-pagination"
+import { useRouter } from "next/navigation"
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
@@ -28,6 +29,7 @@ export function DataTable<TData, TValue>({
     columns,
     data,
 }: DataTableProps<TData, TValue>) {
+    const router = useRouter()
     const table = useReactTable({
         data,
         columns,
@@ -59,8 +61,12 @@ export function DataTable<TData, TValue>({
                     </TableHeader>
                     <TableBody>
                         {table.getRowModel().rows?.length ? (
-                            table.getRowModel().rows.map((row) => (
-                                <TableRow
+                            table.getRowModel().rows.map((row) => {
+                                return <TableRow
+                                    onClick={() => {
+                                        router.push(`/dashboard/${row.getValue('id')}`)
+                                    }}
+                                    className="cursor-pointer hover:bg-gray-200 transition-colors"
                                     key={row.id}
                                     data-state={row.getIsSelected() && "selected"}
                                 >
@@ -70,7 +76,8 @@ export function DataTable<TData, TValue>({
                                         </TableCell>
                                     ))}
                                 </TableRow>
-                            ))
+
+                            })
                         ) : (
                             <TableRow>
                                 <TableCell colSpan={columns.length} className="h-24 text-center">

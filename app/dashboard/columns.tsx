@@ -7,10 +7,12 @@ export type ProgressProfile = {
     classYear: string;
     email: string;
     progress: number;
+    studentId?: string;
     id: string;
 }
 
 export const columns: ColumnDef<ProgressProfile>[] = [
+    {accessorKey: 'id', header: 'ID'},
     {
         accessorKey: 'name',
         header: 'Name',
@@ -43,7 +45,7 @@ export const dummyData: ProgressProfile[] = [
         classYear: '2025',
         email: 'jdoe@conncoll.edu',
         progress: 5,
-        id: '123213'
+        id: '123adsf',
     },
     // create 5 more records with different values
     {
@@ -51,14 +53,14 @@ export const dummyData: ProgressProfile[] = [
         classYear: '2024',
         email: 'jdoe2@conncoll.edu',
         progress: 10,
-        id: '123214'
+        id: 'asdfadsf123',
     },
     {
         name: 'Jane Doe',
         classYear: '2024',
         email: 'jdoe2@conncoll.edu',
         progress: 4,
-        id: '123214'
+        id: 'adsfa123122'
     }
 
 ]
