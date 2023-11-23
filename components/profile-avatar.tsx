@@ -21,7 +21,7 @@ export default async function ProfileAvatar() {
                         "use server"
                         await signOut({redirectTo: '/'});
                     }}>
-                        <Button variant={'ghost'}>
+                        <Button variant={'link'}>
                             Sign Out
                         </Button>
                     </form>
