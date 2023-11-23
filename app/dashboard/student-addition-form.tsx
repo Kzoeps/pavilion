@@ -12,13 +12,19 @@ export default function AddStudentForm() {
                     <Label className="text-right">
                         Name
                     </Label>
-                    <Input id="name" className="col-span-3" />
+                    <Input required id="name" className="col-span-3" />
+                </div>
+                <div className="grid grid-cols-4 items-center gap-4">
+                    <Label className="text-right">
+                        Email
+                    </Label>
+                    <Input required type="email" id="email" className="col-span-3" />
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
                     <Label className="text-right">
                         Class Year
                     </Label>
-                    <Select>
+                    <Select required>
                         <SelectTrigger className="col-span-3">
                             <SelectValue placeholder="Select Class Year" />
                         </SelectTrigger>
@@ -36,7 +42,7 @@ export default function AddStudentForm() {
                     <Label className="text-right">
                         Advisor
                     </Label>
-                    <Select>
+                    <Select required>
                         <SelectTrigger className="col-span-3">
                             <SelectValue placeholder="Select Advisor" />
                         </SelectTrigger>
@@ -52,7 +58,7 @@ export default function AddStudentForm() {
                 </div>
             </div>
             <DialogFooter>
-                <Button type="submit">Save changes</Button>
+                <Button type="submit">Add Student</Button>
             </DialogFooter>
         </form>
     )
