@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
-import { columns } from "./columns";
+import { columns, dummyData } from "./columns";
 import { DataTable } from "./data-table";
+import Progress from "@/components/progress";
 
 export default function Dashboard() {
     return (
@@ -13,7 +14,8 @@ export default function Dashboard() {
                     Filter
                 </Button>
             </section>
-            <DataTable columns={columns} data={[]} />
+            <DataTable columns={columns} data={dummyData} />
+            <Progress amountDone={10} classYear={"2024"}/>
         </main>
     )
 }
