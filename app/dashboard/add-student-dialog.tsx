@@ -7,7 +7,7 @@ export default function AddStudentDialog() {
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Button variant="outline">Add Student</Button>
+                <Button>Add Student</Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
