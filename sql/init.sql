@@ -46,6 +46,7 @@ CREATE TABLE IF NOT EXISTS users
   image TEXT,
   role VARCHAR(255),
   class_year VARCHAR(255),
+  advisor_id INT,
   FOREIGN KEY (advisor_id) REFERENCES users(id),
 
   PRIMARY KEY (id)
