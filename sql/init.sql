@@ -41,12 +41,12 @@ CREATE TABLE IF NOT EXISTS users
 (
   id SERIAL,
   name VARCHAR(255),
-  email VARCHAR(255),
+  email VARCHAR(255) UNIQUE,
   "emailVerified" TIMESTAMPTZ,
   image TEXT,
   role VARCHAR(255),
   class_year VARCHAR(255),
-  advisor_id INTEGER,
+  FOREIGN KEY (advisor_id) REFERENCES users(id),
 
   PRIMARY KEY (id)
 );
