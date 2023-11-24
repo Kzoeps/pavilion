@@ -1,6 +1,8 @@
 "use server";
 import { revalidatePath } from "next/cache";
 import { SafeParseReturnType, z } from "zod";
+import { sql } from "@vercel/postgres";
+import { NextResponse } from "next/server";
 interface AdvisorCreationPayload {
   name: string;
   email: string;
@@ -78,24 +80,24 @@ const DEFAULT_ERRORS = {
   name: "",
   email: "",
   role: "",
-}
+};
 
 export const addAdvisor = async (prevState: any, form: FormData) => {
   try {
     const parsed = parseAdvisorPayload(form);
-    const errors = getErrorsIfAny(parsed);
-    if (errors) {
-      return errors;
+    if (!parsed.success) {
+      const errors = getErrorsIfAny(parsed);
+      return (
+        { errors: errors || { ...DEFAULT_ERRORS }, message: "" }
+      );
     }
-    // create a promise which waits for 4 seconds
-    const wait = (ms: number) =>
-      new Promise((resolve) => setTimeout(resolve, ms));
-    await wait(4000);
+    await sql`INSERT INTO users (name, email, role) VALUES (${parsed.data.name}, ${parsed.data.email}, ${parsed.data.role})`;
     revalidatePath("/dashboard");
+    return { errors: { ...DEFAULT_ERRORS }, message: "Advisor added successfully"};
   } catch (err: any) {
     return {
-      ...DEFAULT_ERRORS,
-      message: "An error occured, please try again",
+      errors: { ...DEFAULT_ERRORS },
+      message: err instanceof Error ? err.message : "An error occured, please try again",
     };
   }
 };

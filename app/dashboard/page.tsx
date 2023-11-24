@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Toaster } from "@/components/ui/toaster";
 import AddAdvisorDialog from "./add-advisor-dialog";
 import AddStudentDialog from "./add-student-dialog";
 import { columns, dummyData } from "./columns";
@@ -15,6 +16,7 @@ export default function Dashboard({ searchParams }: { searchParams: Record<strin
                 </Button>
             </section>
             <DataTable columns={columns} data={dummyData} />
+            <Toaster />
         </main>
     )
 }

@@ -6,13 +6,36 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrig
 import SubmitButton from "./submit-button";
 import { useFormState } from "react-dom";
 import { addAdvisor } from "./actions";
+import { useEffect } from "react";
+import { Toaster } from "@/components/ui/toaster";
+import { useToast } from "@/components/ui/use-toast";
 
 export default function AddAdvisorForm() {
+    const { toast } = useToast();
     const [state, formAction] = useFormState(addAdvisor, {
-        name: '',
-        email: '',
-        role: ''
+        errors: {
+            name: '',
+            email: '',
+            role: '',
+        },
+        message: '',
     })
+
+    useEffect(() => {
+        if (state?.message) {
+            if (state?.message === 'Advisor added successfully') {
+                toast({
+                    description: state.message,
+                })
+            } else {
+                toast({
+                    variant: 'destructive',
+                    title: 'Error',
+                    description: state.message,
+                })
+            }
+        }
+    }, [state?.message])
     return (
         <form action={formAction}>
             <div className="grid gap-4 py-4">
@@ -21,9 +44,9 @@ export default function AddAdvisorForm() {
                         Name
                     </Label>
                     <Input required id="name" name="name" className="col-span-3" />
-                    {!!state?.name && <div className="col-span-1"></div>}
-                    {!!state?.name && <p className="col-span-3 text-xs text-red-500">
-                        {state.name}
+                    {!!state?.errors?.name && <div className="col-span-1"></div>}
+                    {!!state?.errors?.name && <p className="col-span-3 text-xs text-red-500">
+                        {state.errors?.name}
                     </p>}
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
@@ -32,9 +55,9 @@ export default function AddAdvisorForm() {
                     </Label>
 
                     <Input required type="email" name="email" id="email" className="col-span-3" />
-                    {!!state?.email && <div className="col-span-1"></div>}
-                    {!!state?.email && <p className="col-span-3 text-xs text-red-500">
-                        {state.email}
+                    {!!state?.errors?.email && <div className="col-span-1"></div>}
+                    {!!state?.errors?.email && <p className="col-span-3 text-xs text-red-500">
+                        {state?.errors?.email}
                     </p>}
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
@@ -54,8 +77,8 @@ export default function AddAdvisorForm() {
                         </SelectContent>
                     </Select>
                     <div className="col-span-1"></div>
-                    {!!state?.role && <p className="text-xs col-span-3  text-red-500">
-                        {state.role}
+                    {!!state?.errors?.role && <p className="text-xs col-span-3  text-red-500">
+                        {state.errors.role}
                     </p>}
                 </div>
             </div>
@@ -63,5 +86,6 @@ export default function AddAdvisorForm() {
                 <SubmitButton label="Add Advisor" pendingLabel="Adding Advisor" />
             </DialogFooter>
         </form>
+
     )
 }
