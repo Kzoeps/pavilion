@@ -3,20 +3,16 @@ import { DialogFooter } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useFormState } from "react-dom";
-import { addStudent } from "./actions";
 import SubmitButton from "./submit-button";
-import { useEffect } from "react";
-import { getCurrentClassYears } from "@/lib/class-years";
+import { useFormState } from "react-dom";
+import { addAdvisor } from "./actions";
 
-
-export default function AddStudentForm() {
-    const [state, formAction] = useFormState(addStudent, {
+export default function AddAdvisorForm() {
+    const [state, formAction] = useFormState(addAdvisor, {
         name: '',
         email: '',
-        classYear: '',
-        advisor: ''
-    });
+        role: ''
+    })
     return (
         <form action={formAction}>
             <div className="grid gap-4 py-4">
@@ -43,49 +39,28 @@ export default function AddStudentForm() {
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
                     <Label className="text-right">
-                        Class Year
+                        Role
                     </Label>
-                    <Select required name="classYear">
+                    <Select required name="role">
                         <SelectTrigger className="col-span-3">
-                            <SelectValue placeholder="Select Class Year" />
+                            <SelectValue placeholder="Select Role" />
                         </SelectTrigger>
                         <SelectContent>
                             <SelectGroup>
-                                <SelectLabel>Class Year</SelectLabel>
-                                {getCurrentClassYears().map(year => <SelectItem key={year} value={year}>{year}</SelectItem>)}
+                                <SelectLabel>Role</SelectLabel>
+                                <SelectItem value="faculty">Faculty</SelectItem>
+                                <SelectItem value="admin">Admin</SelectItem>
                             </SelectGroup>
                         </SelectContent>
                     </Select>
                     <div className="col-span-1"></div>
-                    {!!state?.classYear && <p className="text-xs col-span-3  text-red-500">
-                        {state.classYear}
-                    </p>}
-                </div>
-                <div className="grid grid-cols-4 items-center gap-4">
-                    <Label className="text-right">
-                        Advisor
-                    </Label>
-                    <Select required name="advisor">
-                        <SelectTrigger className="col-span-3">
-                            <SelectValue placeholder="Select Advisor" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectGroup>
-                                <SelectLabel>Advisor</SelectLabel>
-                                <SelectItem value="1232192">James Lee</SelectItem>
-                                <SelectItem value="1239213">Tarimo</SelectItem>
-                                <SelectItem value="12309922">Karimo</SelectItem>
-                            </SelectGroup>
-                        </SelectContent>
-                    </Select>
-                    <div className="col-span-1"></div>
-                    {!!state?.advisor && <p className="text-xs col-span-3  text-red-500">
-                        {state.advisor}
+                    {!!state?.role && <p className="text-xs col-span-3  text-red-500">
+                        {state.role}
                     </p>}
                 </div>
             </div>
             <DialogFooter>
-                <SubmitButton label="Add Student" pendingLabel="Adding Student" />
+                <SubmitButton label="Add Advisor" pendingLabel="Adding Advisor" />
             </DialogFooter>
         </form>
     )

@@ -45,3 +45,38 @@ export const addStudent = async (prevState: any, form: FormData) => {
     console.log(err);
   }
 };
+
+let AdvisorSchema = z.object({
+    name: z.string(),
+    email: z.string().email({ message: "Invalid email address" }).endsWith("@conncoll.edu", { message: "Email must be conncoll.edu" }),
+    role:  z.literal('faculty', { description: "Role has to be either faculty or admin"}).or(z.literal('admin', {description: 'Role has to be either faculty or admin'}))
+}).required()
+
+export const addAdvisor = async (prevState: any, form: FormData) => {
+    try {
+        const parsed = AdvisorSchema.safeParse({
+            name: form.get("name"),
+            email: form.get("email"),
+            role: form.get("role"),
+        });
+        if (!parsed.success) {
+            const errors = parsed.error.issues.reduce((acc, issue) => {
+                if (issue.path) {
+                    let fullPath = issue.path.join('.') as keyof typeof acc
+                    acc[fullPath] = issue.message
+                }
+                return acc
+            }, {name: '', email: '', role: ''})
+            return errors 
+        }
+        // create a promise which waits for 4 seconds
+        const wait = (ms: number) =>
+          new Promise((resolve) => setTimeout(resolve, ms));
+        await wait(4000);
+        console.log(parsed);
+        // return { message: "Student added successfully" };
+      }
+      catch (err: any) {
+        return {name: '', email: '', role: '', message: 'An error occured, please try again'}
+      }
+}
