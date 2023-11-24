@@ -1,6 +1,11 @@
 "use server";
 import { revalidatePath } from "next/cache";
-import { z } from "zod";
+import { SafeParseReturnType, z } from "zod";
+interface AdvisorCreationPayload {
+  name: string;
+  email: string;
+  role: string;
+}
 
 let UserSchema = z
   .object({
@@ -27,14 +32,17 @@ export const addStudent = async (prevState: any, form: FormData) => {
       advisor: form.get("advisor"),
     });
     if (!parsed.success) {
-        const errors = parsed.error.issues.reduce((acc, issue) => {
-            if (issue.path) {
-                let fullPath = issue.path.join('.') as keyof typeof acc
-                acc[fullPath] = issue.message
-            }
-            return acc
-        }, {name: '', email: '', classYear: '', advisor: ''})
-        return errors 
+      const errors = parsed.error.issues.reduce(
+        (acc, issue) => {
+          if (issue.path) {
+            let fullPath = issue.path.join(".") as keyof typeof acc;
+            acc[fullPath] = issue.message;
+          }
+          return acc;
+        },
+        { name: "", email: "", classYear: "", advisor: "" }
+      );
+      return errors;
     }
     // create a promise which waits for 4 seconds
     const wait = (ms: number) =>
@@ -47,37 +55,70 @@ export const addStudent = async (prevState: any, form: FormData) => {
   }
 };
 
-let AdvisorSchema = z.object({
+let AdvisorSchema = z
+  .object({
     name: z.string(),
-    email: z.string().email({ message: "Invalid email address" }).endsWith("@conncoll.edu", { message: "Email must be conncoll.edu" }),
-    role:  z.literal('faculty', { description: "Role has to be either faculty or admin"}).or(z.literal('admin', {description: 'Role has to be either faculty or admin'}))
-}).required()
+    email: z
+      .string()
+      .email({ message: "Invalid email address" })
+      .endsWith("@conncoll.edu", { message: "Email must be conncoll.edu" }),
+    role: z
+      .literal("faculty", {
+        description: "Role has to be either faculty or admin",
+      })
+      .or(
+        z.literal("admin", {
+          description: "Role has to be either faculty or admin",
+        })
+      ),
+  })
+  .required();
 
 export const addAdvisor = async (prevState: any, form: FormData) => {
-    try {
-        const parsed = AdvisorSchema.safeParse({
-            name: form.get("name"),
-            email: form.get("email"),
-            role: form.get("role"),
-        });
-        if (!parsed.success) {
-            const errors = parsed.error.issues.reduce((acc, issue) => {
-                if (issue.path) {
-                    let fullPath = issue.path.join('.') as keyof typeof acc
-                    acc[fullPath] = issue.message
-                }
-                return acc
-            }, {name: '', email: '', role: ''})
-            return errors 
+  try {
+    const parsed = parseAdvisorPayload(form);
+    const errors = getErrorsIfAny(parsed);
+    if (errors) {
+      return errors;
+    }
+    // create a promise which waits for 4 seconds
+    const wait = (ms: number) =>
+      new Promise((resolve) => setTimeout(resolve, ms));
+    await wait(4000);
+    revalidatePath("/dashboard");
+  } catch (err: any) {
+    return {
+      name: "",
+      email: "",
+      role: "",
+      message: "An error occured, please try again",
+    };
+  }
+};
+
+const getErrorsIfAny = (
+  parsed: SafeParseReturnType<AdvisorCreationPayload, AdvisorCreationPayload>
+) => {
+  if (!parsed.success) {
+    const errors = parsed.error.issues.reduce(
+      (acc, issue) => {
+        if (issue.path) {
+          let fullPath = issue.path.join(".") as keyof typeof acc;
+          acc[fullPath] = issue.message;
         }
-        // create a promise which waits for 4 seconds
-        const wait = (ms: number) =>
-          new Promise((resolve) => setTimeout(resolve, ms));
-        await wait(4000);
-        console.log(parsed);
-        revalidatePath('/dashboard');
-      }
-      catch (err: any) {
-        return {name: '', email: '', role: '', message: 'An error occured, please try again'}
-      }
-}
+        return acc;
+      },
+      { name: "", email: "", role: "" }
+    );
+    return errors;
+  }
+  return undefined;
+};
+
+const parseAdvisorPayload = (form: FormData) => {
+  return AdvisorSchema.safeParse({
+    name: form.get("name"),
+    email: form.get("email"),
+    role: form.get("role"),
+  });
+};
