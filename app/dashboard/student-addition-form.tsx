@@ -6,15 +6,16 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrig
 import { getCurrentClassYears } from "@/lib/class-years";
 import { useFormState } from "react-dom";
 import SubmitButton from "../../components/submit-button";
-import { addStudent } from "./actions";
+import { DEFAULT_STUDENT_ERRORS } from "./utils/constants";
+import { addStudent } from "./actions/student";
 
 
-export default function AddStudentForm({ faculty}: {faculty: {id: string, name: string}[]}) {
+export default function AddStudentForm({ faculty }: { faculty: { id: string, name: string }[] }) {
     const [state, formAction] = useFormState(addStudent, {
-        name: '',
-        email: '',
-        classYear: '',
-        advisor: ''
+        errors: {
+            ...DEFAULT_STUDENT_ERRORS
+        },
+        message: '',
     });
     return (
         <form action={formAction}>
@@ -24,9 +25,9 @@ export default function AddStudentForm({ faculty}: {faculty: {id: string, name: 
                         Name
                     </Label>
                     <Input required id="name" name="name" className="col-span-3" />
-                    {!!state?.name && <div className="col-span-1"></div>}
-                    {!!state?.name && <p className="col-span-3 text-xs text-red-500">
-                        {state.name}
+                    {!!state?.errors?.name && <div className="col-span-1"></div>}
+                    {!!state?.errors?.name && <p className="col-span-3 text-xs text-red-500">
+                        {state.errors.name}
                     </p>}
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
@@ -35,9 +36,9 @@ export default function AddStudentForm({ faculty}: {faculty: {id: string, name: 
                     </Label>
 
                     <Input required type="email" name="email" id="email" className="col-span-3" />
-                    {!!state?.email && <div className="col-span-1"></div>}
-                    {!!state?.email && <p className="col-span-3 text-xs text-red-500">
-                        {state.email}
+                    {!!state?.errors?.email && <div className="col-span-1"></div>}
+                    {!!state?.errors?.email && <p className="col-span-3 text-xs text-red-500">
+                        {state.errors.email}
                     </p>}
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
@@ -55,9 +56,9 @@ export default function AddStudentForm({ faculty}: {faculty: {id: string, name: 
                             </SelectGroup>
                         </SelectContent>
                     </Select>
-                    {!!state?.classYear && <div className="col-span-1"></div>}
-                    {!!state?.classYear && <p className="text-xs col-span-3  text-red-500">
-                        {state.classYear}
+                    {!!state?.errors?.classYear && <div className="col-span-1"></div>}
+                    {!!state?.errors?.classYear && <p className="text-xs col-span-3  text-red-500">
+                        {state.errors.classYear}
                     </p>}
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
@@ -71,13 +72,13 @@ export default function AddStudentForm({ faculty}: {faculty: {id: string, name: 
                         <SelectContent>
                             <SelectGroup>
                                 <SelectLabel>Advisor</SelectLabel>
-                                {faculty.map(({id, name}) => <SelectItem key={id} value={id.toString()}>{name}</SelectItem>)}
+                                {faculty.map(({ id, name }) => <SelectItem key={id} value={id.toString()}>{name}</SelectItem>)}
                             </SelectGroup>
                         </SelectContent>
                     </Select>
-                    {!!state?.advisor && <div className="col-span-1"></div>}
-                    {!!state?.advisor && <p className="text-xs col-span-3  text-red-500">
-                        {state.advisor}
+                    {!!state?.errors?.advisor && <div className="col-span-1"></div>}
+                    {!!state?.errors?.advisor && <p className="text-xs col-span-3  text-red-500">
+                        {state.errors.advisor}
                     </p>}
                 </div>
             </div>
