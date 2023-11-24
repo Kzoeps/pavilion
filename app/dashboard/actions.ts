@@ -74,6 +74,12 @@ let AdvisorSchema = z
   })
   .required();
 
+const DEFAULT_ERRORS = {
+  name: "",
+  email: "",
+  role: "",
+}
+
 export const addAdvisor = async (prevState: any, form: FormData) => {
   try {
     const parsed = parseAdvisorPayload(form);
@@ -88,9 +94,7 @@ export const addAdvisor = async (prevState: any, form: FormData) => {
     revalidatePath("/dashboard");
   } catch (err: any) {
     return {
-      name: "",
-      email: "",
-      role: "",
+      ...DEFAULT_ERRORS,
       message: "An error occured, please try again",
     };
   }
@@ -108,7 +112,7 @@ const getErrorsIfAny = (
         }
         return acc;
       },
-      { name: "", email: "", role: "" }
+      { ...DEFAULT_ERRORS }
     );
     return errors;
   }
