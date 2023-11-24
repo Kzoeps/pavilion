@@ -2,16 +2,16 @@ import { Avatar, AvatarImage, AvatarFallback } from "./ui/avatar";
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuItem } from "./ui/dropdown-menu";
 import { Button } from "./ui/button";
 import { signOut, auth } from "@/app/auth";
+import { getInitials } from "@/lib/utils";
 
 export default async function ProfileAvatar() {
     const session = await auth();
-    console.log(session?.user?.name)
     return (
         <DropdownMenu>
             <DropdownMenuTrigger>
                 <Avatar>
                     <AvatarImage src={session?.user?.image as string | undefined} alt="user image" />
-                    <AvatarFallback>{session?.user?.name}</AvatarFallback>
+                    <AvatarFallback>{getInitials(session?.user?.name)}</AvatarFallback>
                 </Avatar>
             </DropdownMenuTrigger>
             <DropdownMenuContent>

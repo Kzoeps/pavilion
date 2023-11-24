@@ -23,7 +23,7 @@ const authOptions: NextAuthConfig = {
     GoogleProvider({
       clientId: process.env.GOOGLE_ID as string,
       clientSecret: process.env.GOOGLE_SECRET as string,
-      allowDangerousEmailAccountLinking: true
+      allowDangerousEmailAccountLinking: true,
     }),
   ],
   pages: {
@@ -31,11 +31,13 @@ const authOptions: NextAuthConfig = {
   },
   callbacks: {
     signIn: async ({ profile }) => {
+      console.log(profile)
       const { email } = profile as Profile;
       const { rows } = await sql`SELECT * FROM users WHERE email = ${email}`;
       if (rows.length === 0) {
         return false
       }
+      console.log(profile)
       return true
     },
   },
