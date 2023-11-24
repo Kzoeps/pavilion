@@ -56,7 +56,7 @@ export default function AddStudentForm() {
                             </SelectGroup>
                         </SelectContent>
                     </Select>
-                    <div className="col-span-1"></div>
+                    {!!state?.classYear && <div className="col-span-1"></div>}
                     {!!state?.classYear && <p className="text-xs col-span-3  text-red-500">
                         {state.classYear}
                     </p>}
@@ -78,7 +78,7 @@ export default function AddStudentForm() {
                             </SelectGroup>
                         </SelectContent>
                     </Select>
-                    <div className="col-span-1"></div>
+                    {!!state?.advisor && <div className="col-span-1"></div>}
                     {!!state?.advisor && <p className="text-xs col-span-3  text-red-500">
                         {state.advisor}
                     </p>}
