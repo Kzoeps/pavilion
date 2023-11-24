@@ -1,4 +1,5 @@
 "use server";
+import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
 let UserSchema = z
@@ -74,7 +75,7 @@ export const addAdvisor = async (prevState: any, form: FormData) => {
           new Promise((resolve) => setTimeout(resolve, ms));
         await wait(4000);
         console.log(parsed);
-        // return { message: "Student added successfully" };
+        revalidatePath('/dashboard');
       }
       catch (err: any) {
         return {name: '', email: '', role: '', message: 'An error occured, please try again'}
