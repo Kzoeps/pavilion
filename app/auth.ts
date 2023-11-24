@@ -3,6 +3,7 @@ import GoogleProvider from "next-auth/providers/google";
 import PostgresAdapter from "@auth/pg-adapter";
 import { sql } from "@vercel/postgres";
 import { Pool } from "pg";
+import { DbProfile, checkChangesInProfile } from "@/lib/utils";
 
 const pool = new Pool({
   host: process.env.POSTGRES_HOST,
@@ -31,13 +32,17 @@ const authOptions: NextAuthConfig = {
   },
   callbacks: {
     signIn: async ({ profile }) => {
-      console.log(profile)
+      // See utils.ts [checkChangesInProfile] for more details
       const { email } = profile as Profile;
-      const { rows } = await sql`SELECT * FROM users WHERE email = ${email}`;
+      const { rows } = await sql<DbProfile>`SELECT * FROM users WHERE email = ${email}`;
       if (rows.length === 0) {
         return false
       }
-      console.log(profile)
+      const profileChanges = checkChangesInProfile(rows[0], profile)
+      if (profileChanges) {
+        const { name, image } = profileChanges
+        await sql`UPDATE users SET name = ${name}, email = ${email}, image = ${image} WHERE email = ${email}`
+      }
       return true
     },
   },
