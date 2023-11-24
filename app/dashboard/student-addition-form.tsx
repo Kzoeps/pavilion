@@ -3,14 +3,13 @@ import { DialogFooter } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useFormState } from "react-dom";
-import { addStudent } from "./actions";
-import SubmitButton from "./submit-button";
-import { useEffect } from "react";
 import { getCurrentClassYears } from "@/lib/class-years";
+import { useFormState } from "react-dom";
+import SubmitButton from "../../components/submit-button";
+import { addStudent } from "./actions";
 
 
-export default function AddStudentForm() {
+export default function AddStudentForm({ faculty}: {faculty: {id: string, name: string}[]}) {
     const [state, formAction] = useFormState(addStudent, {
         name: '',
         email: '',
@@ -72,9 +71,7 @@ export default function AddStudentForm() {
                         <SelectContent>
                             <SelectGroup>
                                 <SelectLabel>Advisor</SelectLabel>
-                                <SelectItem value="1232192">James Lee</SelectItem>
-                                <SelectItem value="1239213">Tarimo</SelectItem>
-                                <SelectItem value="12309922">Karimo</SelectItem>
+                                {faculty.map(({id, name}) => <SelectItem key={id} value={id.toString()}>{name}</SelectItem>)}
                             </SelectGroup>
                         </SelectContent>
                     </Select>

@@ -2,8 +2,10 @@ import { Button } from "@/components/ui/button";
 import { DialogHeader } from "@/components/ui/dialog";
 import { Dialog, DialogTrigger, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import AddStudentForm from "./student-addition-form";
+import { sql } from "@vercel/postgres";
 
-export default function AddStudentDialog() {
+export default async function AddStudentDialog() {
+    const { rows } = await sql`SELECT id, name FROM users WHERE role = 'faculty'`
     return (
         <Dialog>
             <DialogTrigger asChild>
@@ -16,7 +18,9 @@ export default function AddStudentDialog() {
                         Once a student is added, they will get an invitation email.
                     </DialogDescription>
                 </DialogHeader>
-                <AddStudentForm />
+                <AddStudentForm faculty={rows.map(({ id, name }) => {
+                    return ({ id, name })
+                })} />
             </DialogContent>
         </Dialog>
     )

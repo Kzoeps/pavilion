@@ -3,7 +3,7 @@ import { DialogFooter } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
-import SubmitButton from "./submit-button";
+import SubmitButton from "../../components/submit-button";
 import { useFormState } from "react-dom";
 import { addAdvisor } from "./actions";
 import { useEffect } from "react";
