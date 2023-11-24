@@ -34,7 +34,7 @@ export default function AddAdvisorForm() {
                 })
             }
         }
-    }, [state?.message])
+    }, [state?.message, toast])
     return (
         <form action={formAction}>
             <div className="grid gap-4 py-4">

@@ -1,8 +1,9 @@
 'use server'
-
 import { getCurrentClassYears } from "@/lib/class-years";
 import { SafeParseReturnType, z } from "zod";
 import { DEFAULT_STUDENT_ERRORS } from "../utils/constants";
+import { sql } from "@vercel/postgres";
+import { revalidatePath } from "next/cache";
 
 interface StudentCreationPayload {
   name: string;
@@ -72,6 +73,8 @@ export const addStudent = async (prevState: any, form: FormData) => {
         message: errors ? "" : "An Error Occurred",
       };
     }
+    await sql`INSERT INTO users (name, email, class_year, advisor_id, role) VALUES (${parsed.data.name}, ${parsed.data.email}, ${parsed.data.classYear}, ${parsed.data.advisor}, ${"student"})` 
+    revalidatePath('/dashboard')
     return { errors: { ...DEFAULT_STUDENT_ERRORS }, message: "Student added successfully" };
   } catch (err: any) {
     return {
@@ -80,4 +83,3 @@ export const addStudent = async (prevState: any, form: FormData) => {
     }
   }
 };
-

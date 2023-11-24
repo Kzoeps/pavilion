@@ -8,15 +8,33 @@ import { useFormState } from "react-dom";
 import SubmitButton from "../../components/submit-button";
 import { DEFAULT_STUDENT_ERRORS } from "./utils/constants";
 import { addStudent } from "./actions/student";
+import { useEffect } from "react";
+import { useToast } from "@/components/ui/use-toast";
 
 
 export default function AddStudentForm({ faculty }: { faculty: { id: string, name: string }[] }) {
+    const { toast } = useToast();
     const [state, formAction] = useFormState(addStudent, {
         errors: {
             ...DEFAULT_STUDENT_ERRORS
         },
         message: '',
     });
+    useEffect(() => {
+        if (state?.message) {
+            if (state?.message === 'Student added successfully') {
+                toast({
+                    description: state.message,
+                })
+            } else {
+                toast({
+                    variant: 'destructive',
+                    title: 'Error',
+                    description: state.message,
+                })
+            }
+        }
+    }, [state?.message, toast])
     return (
         <form action={formAction}>
             <div className="grid gap-4 py-4">
