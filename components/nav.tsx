@@ -28,7 +28,7 @@ export default async function Nav() {
             </div>
             { session?.user ? <ProfileAvatar/>: <form action={async () => {
                 "use server"
-                await signIn("google", { redirectTo: '/como-estas'})
+                await signIn("google", { redirectTo: '/dashboard'})
             }}><Button>Sign In</Button></form> }
         </nav>
     )

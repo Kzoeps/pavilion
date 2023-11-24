@@ -5,6 +5,7 @@ import { signOut, auth } from "@/app/auth";
 
 export default async function ProfileAvatar() {
     const session = await auth();
+    console.log(session?.user?.name)
     return (
         <DropdownMenu>
             <DropdownMenuTrigger>

@@ -23,6 +23,7 @@ const authOptions: NextAuthConfig = {
     GoogleProvider({
       clientId: process.env.GOOGLE_ID as string,
       clientSecret: process.env.GOOGLE_SECRET as string,
+      allowDangerousEmailAccountLinking: true
     }),
   ],
   pages: {
@@ -30,13 +31,12 @@ const authOptions: NextAuthConfig = {
   },
   callbacks: {
     signIn: async ({ profile }) => {
+      const { email } = profile as Profile;
+      const { rows } = await sql`SELECT * FROM users WHERE email = ${email}`;
+      if (rows.length === 0) {
+        return false
+      }
       return true
-      // const { email } = profile as Profile;
-      // const { rows } = await sql`SELECT * FROM users WHERE email = ${email}`;
-      // if (rows.length === 0) {
-      //   return false
-      // }
-      // return true
     },
   },
   adapter: PostgresAdapter(pool) as NextAuthConfig["adapter"],
