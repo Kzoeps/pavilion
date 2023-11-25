@@ -1,8 +1,11 @@
 import { getCurrentClassYears } from "@/lib/class-years";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectGroup, SelectLabel, SelectItem } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
+import { DialogTrigger, DialogFooter } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import SubmitButton from "@/components/submit-button";
 
-export default function FilterForm({ faculty, currentClassYear, currentAdvisor }: { currentClassYear: string; currentAdvisor: string; faculty: { id: string, name: string }[] }) {
+export default function FilterForm({ faculty, currentClassYear, currentAdvisor }: { currentClassYear?: string; currentAdvisor?: string; faculty: { id: string, name: string }[] }) {
     return (
         <form>
             <div className="grid gap-4 py-4">
@@ -40,6 +43,12 @@ export default function FilterForm({ faculty, currentClassYear, currentAdvisor }
                     </Select>
                 </div>
             </div>
+            <DialogFooter>
+                <DialogTrigger>
+                    <Button variant="secondary" >Cancel</Button>
+                </DialogTrigger>
+                <SubmitButton pendingLabel="Filtering" label="Filter" />
+            </DialogFooter>
         </form>
     )
 }

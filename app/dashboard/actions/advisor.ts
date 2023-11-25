@@ -1,8 +1,9 @@
-'use server'
+"use server";
 
 import { sql } from "@vercel/postgres";
 import { revalidatePath } from "next/cache";
 import { SafeParseReturnType, z } from "zod";
+import { emailSchema, roleSchema } from "./constants";
 interface AdvisorCreationPayload {
   name: string;
   email: string;
@@ -12,19 +13,8 @@ interface AdvisorCreationPayload {
 let AdvisorSchema = z
   .object({
     name: z.string(),
-    email: z
-      .string()
-      .email({ message: "Invalid email address" })
-      .endsWith("@conncoll.edu", { message: "Email must be conncoll.edu" }),
-    role: z
-      .literal("faculty", {
-        description: "Role has to be either faculty or admin",
-      })
-      .or(
-        z.literal("admin", {
-          description: "Role has to be either faculty or admin",
-        })
-      ),
+    email: emailSchema,
+    role: roleSchema,
   })
   .required();
 

@@ -1,8 +1,9 @@
 import { Button } from "@/components/ui/button";
-import { DialogHeader } from "@/components/ui/dialog";
+import { DialogClose, DialogFooter, DialogHeader } from "@/components/ui/dialog";
 import { Dialog, DialogTrigger, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import AddStudentForm from "./student-addition-form";
 import { sql } from "@vercel/postgres";
+import SubmitButton from "@/components/submit-button";
 
 export default async function AddStudentDialog() {
     const { rows } = await sql`SELECT id, name FROM users WHERE role = 'faculty'`
@@ -22,6 +23,7 @@ export default async function AddStudentDialog() {
                     return ({ id, name })
                 })} />
             </DialogContent>
+            
         </Dialog>
     )
 }
