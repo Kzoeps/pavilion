@@ -4,8 +4,11 @@ import { Suspense } from "react";
 import AddAdvisorDialog from "./add-advisor-dialog";
 import AddStudentDialog from "./add-student-dialog";
 import StudentsDisplay from "./students-display";
+import { pick } from "lodash-es";
+import UsersFilterDialog from "./filter-dialog";
 
 export default function Dashboard({ searchParams }: { searchParams: Record<string, string> }) {
+    const filterParams = pick(searchParams, ['advisor_id', 'class_year'])
     return (
         <main className="flex flex-col gap-4">
             <section className="flex flex-row justify-end gap-3">
@@ -15,12 +18,12 @@ export default function Dashboard({ searchParams }: { searchParams: Record<strin
                 <Suspense fallback={<p>Loading</p>}>
                     <AddAdvisorDialog />
                 </Suspense>
-                <Button>
-                    Filter
-                </Button>
+                <Suspense>
+                    <UsersFilterDialog filterParams={filterParams} />
+                </Suspense>
             </section>
             <Suspense fallback={<p>Loading</p>}>
-                <StudentsDisplay/>
+                <StudentsDisplay />
             </Suspense>
             <Toaster />
         </main>
