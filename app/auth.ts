@@ -1,9 +1,20 @@
-import NextAuth, { type Profile, type NextAuthConfig } from "next-auth";
+import NextAuth, {
+  type User,
+  type Profile,
+  type NextAuthConfig,
+  type DefaultSession,
+} from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import PostgresAdapter from "@auth/pg-adapter";
 import { sql } from "@vercel/postgres";
 import { Pool } from "pg";
 import { DbProfile, checkChangesInProfile } from "@/lib/utils";
+
+type UserSession = { user: { role: string; id: string } } & DefaultSession;
+interface PavilionUser extends User {
+  id: string;
+  role: string;
+}
 
 const pool = new Pool({
   host: process.env.POSTGRES_HOST,
@@ -34,16 +45,25 @@ const authOptions: NextAuthConfig = {
     signIn: async ({ profile }) => {
       // See utils.ts [checkChangesInProfile] for more details
       const { email } = profile as Profile;
-      const { rows } = await sql<DbProfile>`SELECT * FROM users WHERE email = ${email}`;
+      const { rows } =
+        await sql<DbProfile>`SELECT * FROM users WHERE email = ${email}`;
       if (rows.length === 0) {
-        return false
+        return false;
       }
-      const profileChanges = checkChangesInProfile(rows[0], profile)
+      const profileChanges = checkChangesInProfile(rows[0], profile);
       if (profileChanges) {
-        const { name, image, emailVerified } = profileChanges
-        await sql`UPDATE users SET name = ${name}, emailVerified = ${emailVerified}, image = ${image} WHERE email = ${email}`
+        const { name, image, emailVerified } = profileChanges;
+        // await sql`UPDATE users SET name = ${name}, emailVerified = ${emailVerified || null}, image = ${image} WHERE email = ${email}`
+        await sql`UPDATE users SET name = ${name}, image = ${image} WHERE email = ${email}`;
       }
-      return true
+      return true;
+    },
+    session: async ({ session, user }) => {
+      (session as UserSession).user.role = (
+        user as unknown as PavilionUser
+      ).role;
+      (session as UserSession).user.id = (user as unknown as PavilionUser).id;
+      return session as UserSession;
     },
   },
   adapter: PostgresAdapter(pool) as NextAuthConfig["adapter"],

@@ -1,10 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { Toaster } from "@/components/ui/toaster";
+import { Suspense } from "react";
 import AddAdvisorDialog from "./add-advisor-dialog";
 import AddStudentDialog from "./add-student-dialog";
-import { columns, dummyData } from "./columns";
-import { DataTable } from "./data-table";
-import { Suspense } from "react";
+import StudentsDisplay from "./students-display";
 
 export default function Dashboard({ searchParams }: { searchParams: Record<string, string> }) {
     return (
@@ -21,7 +20,7 @@ export default function Dashboard({ searchParams }: { searchParams: Record<strin
                 </Button>
             </section>
             <Suspense fallback={<p>Loading</p>}>
-                <DataTable columns={columns} data={dummyData} />
+                <StudentsDisplay/>
             </Suspense>
             <Toaster />
         </main>

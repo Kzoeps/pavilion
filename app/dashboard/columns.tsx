@@ -19,23 +19,23 @@ export const columns: ColumnDef<ProgressProfile>[] = [
 
     },
     {
-        accessorKey: 'classYear',
+        accessorKey: 'class_year',
         header: 'Class Year'
     },
     {
         accessorKey: 'email',
         header: 'Email'
     },
-    {
-        accessorKey: 'progress',
-        header: 'Progress',
-        cell: ({ row }) => {
-            const amount = parseInt(row.getValue('progress'));
-            return (
-                <Progress amountDone={amount} classYear={row.getValue('classYear')} />
-            )
-        }
-    }
+    // {
+    //     accessorKey: 'progress',
+    //     header: 'Progress',
+    //     cell: ({ row }) => {
+    //         const amount = parseInt(row.getValue('progress'));
+    //         return (
+    //             <Progress amountDone={amount} classYear={row.getValue('classYear')} />
+    //         )
+    //     }
+    // }
 
 ]
 
