@@ -6,6 +6,9 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrig
 import { getCurrentClassYears } from "@/lib/class-years";
 import { filterStudents } from "./actions/filter";
 
+// NOT USED: filter doesnt close on redirect and to close it programmatically we need to manually control opening & closing of modal using params
+// which is too much fo a hassle so just using normal filters.
+
 export default function FilterForm({ faculty, currentClassYear, currentAdvisor }: { currentClassYear?: string; currentAdvisor?: string; faculty: { id: string, name: string }[] }) {
     return (
         <form action={filterStudents}>
