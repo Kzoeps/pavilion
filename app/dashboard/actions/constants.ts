@@ -28,4 +28,4 @@ export const classYearSchema = z.coerce
     message: `Class Year can't be greater than ${
       validClassYears[validClassYears.length - 1]
     }`,
-  });
+  })

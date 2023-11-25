@@ -1,20 +1,13 @@
-import NextAuth, {
-  type User,
-  type Profile,
-  type NextAuthConfig,
-  type DefaultSession,
-} from "next-auth";
-import GoogleProvider from "next-auth/providers/google";
+import { PavilionUser, UserSession } from "@/lib/types";
+import { DbProfile, checkChangesInProfile } from "@/lib/utils";
 import PostgresAdapter from "@auth/pg-adapter";
 import { sql } from "@vercel/postgres";
+import NextAuth, {
+  type NextAuthConfig,
+  type Profile
+} from "next-auth";
+import GoogleProvider from "next-auth/providers/google";
 import { Pool } from "pg";
-import { DbProfile, checkChangesInProfile } from "@/lib/utils";
-
-type UserSession = { user: { role: string; id: string } } & DefaultSession;
-interface PavilionUser extends User {
-  id: string;
-  role: string;
-}
 
 const pool = new Pool({
   host: process.env.POSTGRES_HOST,

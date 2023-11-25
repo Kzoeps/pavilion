@@ -1,12 +1,10 @@
-import { Button } from "@/components/ui/button";
 import { Toaster } from "@/components/ui/toaster";
+import { pick } from "lodash-es";
 import { Suspense } from "react";
 import AddAdvisorDialog from "./add-advisor-dialog";
 import AddStudentDialog from "./add-student-dialog";
-import StudentsDisplay from "./students-display";
-import { pick } from "lodash-es";
 import UsersFilterDialog from "./filter-dialog";
-import ClassYearFilter from "./class-year-filter";
+import StudentsDisplay from "./students-display";
 
 export default function Dashboard({ searchParams }: { searchParams: Record<string, string> }) {
     const filterParams = pick(searchParams, ['advisor_id', 'class_year'])
@@ -24,7 +22,7 @@ export default function Dashboard({ searchParams }: { searchParams: Record<strin
                 </Suspense>
             </section>
             <Suspense fallback={<p>Loading</p>}>
-                <StudentsDisplay />
+                <StudentsDisplay filterParams={filterParams} />
             </Suspense>
             <Toaster />
         </main>

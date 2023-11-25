@@ -6,7 +6,7 @@ import { z } from "zod";
 
 let FilterSchema = z.object({
   advisor: z.string(),
-  classYear,
+  classYear: classYear.or(z.literal("all")),
 });
 
 export const filterStudents = async (form: FormData) => {
@@ -15,7 +15,7 @@ export const filterStudents = async (form: FormData) => {
     classYear: form.get("classYear"),
   });
   redirect(
-    "/dashboard?classYear=" +
+    "/dashboard?class_year=" +
       parsed.classYear +
       "&advisor_id=" +
       parsed.advisor
