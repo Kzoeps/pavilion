@@ -39,8 +39,13 @@ export function checkChangesInProfile(dbProfile: DbProfile, oauthProfile: Profil
   if (!oauthProfile) {
     return false
   }
-  const dbProfileVals = pick(dbProfile, ["name", "image", "email_verified"]) 
-  const oauthProfileVals = mapKeys(pick(oauthProfile, ["name",  "picture"]), (val, key) => (key === "picture" ? "image" : key)) 
+  const dbProfileKeys = {
+    picture: 'image',
+    email_verified: 'emailVerified',
+    name: 'name'
+  }
+  const dbProfileVals = pick(dbProfile, ["name", "image", "emailVerified"]) 
+  const oauthProfileVals = mapKeys(pick(oauthProfile, ["name",  "picture", "email_verified"]), (val, key: keyof typeof dbProfileKeys) => (dbProfileKeys[key] || key)) 
   if (!isEqual(dbProfileVals, oauthProfileVals)) {
     return oauthProfileVals
   }

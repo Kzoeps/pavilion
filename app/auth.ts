@@ -40,8 +40,8 @@ const authOptions: NextAuthConfig = {
       }
       const profileChanges = checkChangesInProfile(rows[0], profile)
       if (profileChanges) {
-        const { name, image } = profileChanges
-        await sql`UPDATE users SET name = ${name}, email = ${email}, image = ${image} WHERE email = ${email}`
+        const { name, image, emailVerified } = profileChanges
+        await sql`UPDATE users SET name = ${name}, emailVerified = ${emailVerified}, image = ${image} WHERE email = ${email}`
       }
       return true
     },
