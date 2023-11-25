@@ -1,13 +1,14 @@
-import { getCurrentClassYears } from "@/lib/class-years";
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectGroup, SelectLabel, SelectItem } from "@/components/ui/select";
-import { Label } from "@/components/ui/label";
-import { DialogTrigger, DialogFooter } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
 import SubmitButton from "@/components/submit-button";
+import { Button } from "@/components/ui/button";
+import { DialogFooter, DialogTrigger } from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { getCurrentClassYears } from "@/lib/class-years";
+import { filterStudents } from "./actions/filter";
 
 export default function FilterForm({ faculty, currentClassYear, currentAdvisor }: { currentClassYear?: string; currentAdvisor?: string; faculty: { id: string, name: string }[] }) {
     return (
-        <form>
+        <form action={filterStudents}>
             <div className="grid gap-4 py-4">
                 <div className="grid grid-cols-4 items-center gap-4">
                     <Label className="text-right">
