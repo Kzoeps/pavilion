@@ -1,9 +1,9 @@
 import { DefaultSession, User } from "next-auth";
 
 export enum Roles {
-    ADMIN = "admin",
-    FACULTY = "faculty",
-    STUDENT = "student",
+  ADMIN = "admin",
+  FACULTY = "faculty",
+  STUDENT = "student",
 }
 
 export interface BasicUser {
@@ -18,4 +18,10 @@ export interface PavilionUser extends User {
   role: string;
 }
 
-export type { UserSession as PavilionSession }
+export type { UserSession as PavilionSession };
+
+export enum TimeZone {
+  local = "America/New_York",
+}
+
+export const TimeFormat = 'YYYY-MM-DDTHH:mm'
