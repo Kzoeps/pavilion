@@ -1,27 +1,13 @@
-import { PavilionUser, UserSession } from "@/lib/types";
+import { ADMIN_PATHS, AUTH_PATHS, PRIVILEGED_USERS } from "@/lib/constants";
+import { PavilionUser, Roles, UserSession } from "@/lib/types";
 import { DbProfile, checkChangesInProfile } from "@/lib/utils";
 import PostgresAdapter from "@auth/pg-adapter";
-import { sql } from "@vercel/postgres";
-import NextAuth, {
-  type NextAuthConfig,
-  type Profile
-} from "next-auth";
+import { createPool, sql } from "@vercel/postgres";
+import NextAuth, { type NextAuthConfig, type Profile } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
-import { Pool } from "pg";
+import { NextResponse } from "next/server";
 
-const pool = new Pool({
-  host: process.env.POSTGRES_HOST,
-  user: process.env.POSTGRES_USER,
-  password: process.env.POSTGRES_PASSWORD,
-  database: process.env.POSTGRES_DATABASE,
-  max: 20,
-  idleTimeoutMillis: 30000,
-  connectionTimeoutMillis: 2000,
-  // TODO: Revert back to true when we have a valid SSL certificate
-  ssl: {
-    rejectUnauthorized: false,
-  },
-});
+const pool = createPool();
 
 const authOptions: NextAuthConfig = {
   providers: [
@@ -35,6 +21,23 @@ const authOptions: NextAuthConfig = {
     signIn: "/login",
   },
   callbacks: {
+    authorized: async ({ request, auth }) => {
+      if (
+        ADMIN_PATHS.find((path) => request.nextUrl.pathname.startsWith(path))
+      ) {
+        return !!PRIVILEGED_USERS.includes(
+          (auth?.user as PavilionUser)?.role as Roles
+        );
+      }
+      if (
+        AUTH_PATHS.find((path) => request.nextUrl.pathname.startsWith(path))
+      ) {
+        if (auth?.user) {
+          return NextResponse.redirect(new URL("/", request.url));
+        }
+      }
+      return true;
+    },
     signIn: async ({ profile }) => {
       // See utils.ts [checkChangesInProfile] for more details
       const { email } = profile as Profile;

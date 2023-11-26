@@ -8,6 +8,7 @@ import { useEffect } from "react";
 import { useFormState } from "react-dom";
 import SubmitButton from "../../components/submit-button";
 import { addAdvisor } from "./actions/advisor";
+import { Roles } from "@/lib/types";
 
 export default function AddAdvisorForm() {
     const { toast } = useToast();
@@ -70,8 +71,8 @@ export default function AddAdvisorForm() {
                         <SelectContent>
                             <SelectGroup>
                                 <SelectLabel>Role</SelectLabel>
-                                <SelectItem value="faculty">Faculty</SelectItem>
-                                <SelectItem value="admin">Admin</SelectItem>
+                                <SelectItem value={Roles.FACULTY}>Faculty</SelectItem>
+                                <SelectItem value={Roles.ADMIN}>Admin</SelectItem>
                             </SelectGroup>
                         </SelectContent>
                     </Select>

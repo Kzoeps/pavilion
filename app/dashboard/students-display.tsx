@@ -1,5 +1,5 @@
 import { getCurrentClassYears } from "@/lib/class-years";
-import { BasicUser, PavilionSession } from "@/lib/types";
+import { BasicUser, PavilionSession, Roles } from "@/lib/types";
 import { sql } from "@vercel/postgres";
 import { auth } from "../auth";
 import { ProgressProfile, columns } from "./columns";

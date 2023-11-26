@@ -1,4 +1,5 @@
 import { getCurrentClassYears } from "@/lib/class-years";
+import { Roles } from "@/lib/types";
 import { z } from "zod";
 
 const validClassYears = getCurrentClassYears();
@@ -9,11 +10,11 @@ export const emailSchema = z
   .email({ message: "Invalid email address" });
 
 export const roleSchema = z
-  .literal("faculty", {
+  .literal(Roles.FACULTY, {
     description: "Role has to be either faculty or admin",
   })
   .or(
-    z.literal("admin", {
+    z.literal(Roles.ADMIN, {
       description: "Role has to be either faculty or admin",
     })
   );

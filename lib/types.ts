@@ -1,5 +1,11 @@
 import { DefaultSession, User } from "next-auth";
 
+export enum Roles {
+    ADMIN = "admin",
+    FACULTY = "faculty",
+    STUDENT = "student",
+}
+
 export interface BasicUser {
   id: number;
   name: string;
