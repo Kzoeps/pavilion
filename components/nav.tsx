@@ -17,8 +17,8 @@ export default async function Nav() {
                     <Link href="/dashboard" className="hover:underline underline-offset-8">
                        Dashboard 
                     </Link>
-                    <Link href="#" className="hover:underline underline-offset-8">
-                        About
+                    <Link href="/talks" className="hover:underline underline-offset-8">
+                        Talks
                     </Link>
                     <Link href="#" className="hover:underline underline-offset-8">
                         Services
