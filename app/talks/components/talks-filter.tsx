@@ -5,9 +5,9 @@ import { getCurrentClassYears } from "@/lib/class-years";
 export default function TalksFilter() {
     return (
         <>
-            <form className="w-full flex justify-end">
+            <form className="justify-start">
                 <Select defaultValue={getCurrentClassYears()[0]} required name="talkYear">
-                    <SelectTrigger className="w-1/6">
+                    <SelectTrigger className=" w-28">
                         <SelectValue placeholder="Select Talk Year" />
                     </SelectTrigger>
                     <SelectContent>
