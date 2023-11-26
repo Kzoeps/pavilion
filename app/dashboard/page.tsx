@@ -6,6 +6,7 @@ import AddStudentDialog from "./add-student-dialog";
 import UsersFilterDialog from "./filter-dialog";
 import StudentsDisplay from "./students-display";
 
+// TODO: Need pagination
 export default function Dashboard({ searchParams }: { searchParams: Record<string, string> }) {
     const filterParams = pick(searchParams, ['advisor_id', 'class_year'])
     return (
