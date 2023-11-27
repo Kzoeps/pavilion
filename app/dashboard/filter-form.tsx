@@ -14,7 +14,7 @@ interface ClassYearFilterProps {
 export default function FilterForm({ currentClassYear, currentAdvisor, faculty }: ClassYearFilterProps) {
     const formRef = useRef<HTMLFormElement>(null)
     const handleSubmit = () => {
-        formRef.current?.submit()
+        formRef.current?.requestSubmit()
     }
     return (
         <form ref={formRef} onChange={handleSubmit} action={filterStudents} className="flex gap-4">

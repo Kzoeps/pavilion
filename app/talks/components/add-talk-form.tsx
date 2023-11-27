@@ -5,12 +5,13 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { TimeFormat } from "@/lib/types";
 import dayjs from "dayjs";
+import { addTalk } from "../actions/add-talk";
 
 
 export default function AddTalkForm() {
     return (
         <>
-            <form className="grid py-4 gap-4">
+            <form action={addTalk} className="grid py-4 gap-4">
                 <div className="grid grid-cols-4 items-center gap-4">
                     <Label className="text-right">
                         Title
@@ -27,7 +28,7 @@ export default function AddTalkForm() {
                     <Label className="text-right">
                         Date & Time
                     </Label>
-                    <Input min={dayjs().format(TimeFormat)} type="datetime-local" required id="time" name="time" className="col-span-3" />
+                    <Input min={dayjs().format(TimeFormat)} type="datetime-local" required id="datetime" name="datetime" className="col-span-3" />
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
                     <Label className="text-right">
