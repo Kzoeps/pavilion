@@ -57,5 +57,10 @@ export function checkChangesInProfile(dbProfile: DbProfile, oauthProfile: Profil
 
 export const localizeTime = (datetime: Date) => {
   const localized = dayjs(datetime).tz("America/New_York")
-  return localized.format("YYYY-MM-DDTHH:mm")
+  return localized
+}
+
+export const displayTime = (datetime: Date) => {
+  const localized = localizeTime(datetime)
+  return localized.format("MMMM D, YYYY, h:mm A")
 }

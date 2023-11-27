@@ -1,5 +1,5 @@
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { localizeTime } from "@/lib/utils";
+import { displayTime, localizeTime } from "@/lib/utils";
 
 interface TalksCardProps {
     title: string;
@@ -16,7 +16,7 @@ export default function TalksCard(props: TalksCardProps) {
             <Card className=" shadow-md">
                 <CardHeader>
                     <CardTitle className=" text-md" >{title}</CardTitle>
-                    <CardDescription>{localizeTime(datetime)} | {location}</CardDescription>
+                    <CardDescription>{displayTime(datetime)} | {location}</CardDescription>
                 </CardHeader>
                 <CardContent>
                     <p className="text-sm">
