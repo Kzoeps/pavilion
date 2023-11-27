@@ -25,7 +25,7 @@ const FilterSchema = z.object({
     year: z.coerce.number().int()
 })
 
-export const addTalk = async (form: FormData) => {
+export const addTalk = async (prevState: any, form: FormData) => {
     const session = await auth()
     const parsed = TalkSchema.parse({
         title: form.get('title'),
@@ -37,6 +37,7 @@ export const addTalk = async (form: FormData) => {
         await sql`INSERT INTO talks (title, description, datetime, location, creator_id) VALUES (${parsed.title}, ${parsed.description}, ${parsed.datetime.toISOString()}, ${parsed.location}, ${(session?.user as PavilionUser).id})`
     }
     revalidatePath('/talks')
+    return { success: true, message: "Talk created successfully" }
 }
 
 export const filterTalk = async (form: FormData) => {
