@@ -8,8 +8,7 @@ export default function TalksFilter({year}: {year?: string}) {
     const talkYear = year || new Date().getFullYear().toString()
 
     const handleSubmit = async () => {
-        await formRef.current?.requestSubmit()
-        console.log("submitted")
+        formRef.current?.requestSubmit()
     }
     return (
         <>
