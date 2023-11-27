@@ -9,12 +9,12 @@ export default function Talks({ searchParams }: { searchParams: Record<string, s
         <>
             <main className="flex flex-col gap-4">
                 <section className="flex justify-end items-center gap-4" >
-                    <TalksFilter />
+                    <TalksFilter year={year}/>
                     <AddTalkDialog />
                 </section>
 
                 <Suspense fallback={<div>Loading...</div>}>
-                    <TalksDisplay />
+                    <TalksDisplay year={year}/>
                 </Suspense>
             </main>
         </>
