@@ -4,11 +4,20 @@ import { sql } from "@vercel/postgres";
 import { revalidatePath } from "next/cache";
 import { SafeParseReturnType, z } from "zod";
 import { emailSchema, roleSchema } from "./constants";
+import sgMail from "@sendgrid/mail";
 interface AdvisorCreationPayload {
   name: string;
   email: string;
   role: string;
 }
+if (process.env.SENDGRID_API_KEY) {
+  sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+}
+const msg = {
+  from: "kyoezer@conncoll.edu",
+  subject: "Welcome to Pavilion",
+  text: "You have been invitied to pavilion you can now sign up  and use the platform",
+};
 
 let AdvisorSchema = z
   .object({
@@ -32,6 +41,7 @@ export const addAdvisor = async (prevState: any, form: FormData) => {
       return { errors: errors || { ...DEFAULT_ERRORS }, message: "" };
     }
     await sql`INSERT INTO users (name, email, role) VALUES (${parsed.data.name}, ${parsed.data.email}, ${parsed.data.role})`;
+    await sgMail.send({...msg, to: parsed.data.email});
     revalidatePath("/dashboard");
     return {
       errors: { ...DEFAULT_ERRORS },

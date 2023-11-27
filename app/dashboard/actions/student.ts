@@ -5,6 +5,17 @@ import { DEFAULT_STUDENT_ERRORS } from "../utils/constants";
 import { sql } from "@vercel/postgres";
 import { revalidatePath } from "next/cache";
 import { emailSchema, classYearSchema } from "./constants";
+import sgMail from "@sendgrid/mail";
+
+if (process.env.SENDGRID_API_KEY) {
+  sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+}
+
+const msg = {
+  from: 'kyoezer@conncoll.edu',
+  subject: 'Welcome to Pavilion',
+  text: 'You have been invitied to pavilion you can now sign up  and use the platform'
+}
 
 interface StudentCreationPayload {
   name: string;
@@ -64,6 +75,7 @@ export const addStudent = async (prevState: any, form: FormData) => {
     }, ${parsed.data.email}, ${parsed.data.classYear}, ${
       parsed.data.advisor
     }, ${"student"})`;
+    await sgMail.send({ ...msg, to: parsed.data.email });
     revalidatePath("/dashboard");
     return {
       errors: { ...DEFAULT_STUDENT_ERRORS },
