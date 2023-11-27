@@ -1,10 +1,10 @@
 import { Suspense } from "react";
+import AddTalkDialog from "./components/add-talk-dialog";
 import TalksDisplay from "./components/talks-display";
 import TalksFilter from "./components/talks-filter";
-import { Button } from "@/components/ui/button";
-import AddTalkDialog from "./components/add-talk-dialog";
 
-export default function Talks() {
+export default function Talks({ searchParams }: { searchParams: Record<string, string>}) {
+    const year = searchParams?.year
     return (
         <>
             <main className="flex flex-col gap-4">

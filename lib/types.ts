@@ -18,6 +18,15 @@ export interface PavilionUser extends User {
   role: string;
 }
 
+export interface Talks {
+  id: number;
+  title: string;
+  description: string;
+  datetime: Date;
+  location: string;
+  creator_id: number;
+}
+
 export type { UserSession as PavilionSession };
 
 export enum TimeZone {

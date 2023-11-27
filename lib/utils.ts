@@ -2,6 +2,9 @@ import { clsx, type ClassValue } from "clsx"
 import { isEqual, mapKeys, pick } from "lodash-es"
 import { Profile } from "next-auth"
 import { twMerge } from "tailwind-merge"
+import dayjs from "dayjs"
+import utc from 'dayjs/plugin/utc'
+import timezone from 'dayjs/plugin/timezone'
  
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -50,4 +53,9 @@ export function checkChangesInProfile(dbProfile: DbProfile, oauthProfile: Profil
     return oauthProfileVals
   }
   return false
+}
+
+export const localizeTime = (datetime: Date) => {
+  const localized = dayjs(datetime).tz("America/New_York")
+  return localized.format("YYYY-MM-DDTHH:mm")
 }
