@@ -15,10 +15,15 @@ dayjs.extend(utc)
 dayjs.extend(timezone)
 
 const TalkSchema = z.object({
+    id: z.number().optional(),
     title: z.string(),
     location: z.string(),
     datetime: z.coerce.date().min(dayjs().startOf('day').toDate(), { message: "Event can't be in the past (No time travelling)" }),
     description: z.string()
+})
+
+const DeleteSchema = z.object({
+    id: z.number()
 })
 
 const FilterSchema = z.object({
@@ -38,6 +43,29 @@ export const addTalk = async (prevState: any, form: FormData) => {
     }
     revalidatePath('/talks')
     return { success: true, message: "Talk created successfully" }
+}
+
+export const updateTalk = async (prevState: any, form: FormData) => {
+    console.log('enter update')
+    return { success: true, message: "Talk updated successfully" }
+    const parsed = TalkSchema.parse({
+        id: form.get('id'),
+        title: form.get('title'),
+        description: form.get('description'),
+        datetime: form.get('datetime'),
+        location: form.get('location')
+    });
+
+    await sql`UPDATE talks SET title = ${parsed.title}, description = ${parsed.description}, datetime = ${parsed.datetime.toISOString()}, location = ${parsed.location} WHERE id = ${parsed.id}`
+    revalidatePath('/talks')
+    return { success: true, message: "Talk updated successfully" }
+}
+
+export const deleteTalk = async (prevState: any, form: FormData) => {
+    const parsed = DeleteSchema.parse({ id: form.get('id') }) 
+    await sql`DELETE FROM talks WHERE id = ${parsed.id}`
+    revalidatePath('/talks')
+    return { success: true, message: "Talk deleted successfully" }
 }
 
 export const filterTalk = async (form: FormData) => {

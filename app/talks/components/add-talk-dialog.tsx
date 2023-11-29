@@ -9,7 +9,7 @@ import { ReactNode } from "react";
 
 interface AddTalkDialogProps{
     type?: 'create' | 'edit';
-    children: ReactNode;
+    children?: ReactNode;
     data?: Talks
 }
 export default async function AddTalkDialog({ children, type = 'create', data }: AddTalkDialogProps) {

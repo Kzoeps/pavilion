@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import AddTalkDialog from "./components/add-talk-dialog";
 import TalksDisplay from "./components/talks-display";
 import TalksFilter from "./components/talks-filter";
+import { Toaster } from "@/components/ui/toaster";
 
 export default function Talks({ searchParams }: { searchParams: Record<string, string> }) {
     const year = searchParams?.year
@@ -18,6 +19,7 @@ export default function Talks({ searchParams }: { searchParams: Record<string, s
                 <Suspense fallback={<div>Loading...</div>}>
                     <TalksDisplay year={year} />
                 </Suspense>
+                <Toaster/>
             </main>
         </>
     )

@@ -9,7 +9,6 @@ interface TalksCardProps extends Talks { }
 
 export default function TalksCard(props: TalksCardProps) {
     const { title, description, datetime, location, creator_id } = props;
-    console.log(props)
     return (
         <>
             <Card className=" relative shadow-md">

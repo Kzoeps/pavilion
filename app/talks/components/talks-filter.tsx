@@ -20,7 +20,7 @@ export default function TalksFilter({year}: {year?: string}) {
                     <SelectContent>
                         <SelectGroup>
                             <SelectLabel>Talk Year</SelectLabel>
-                            {[2023, 2022, 2021].map(year => <SelectItem onSelect={(option) => console.log(option)} key={year} value={year.toString()}>{year}</SelectItem>)}
+                            {[2023, 2022, 2021].map(year => <SelectItem key={year} value={year.toString()}>{year}</SelectItem>)}
                         </SelectGroup>
                     </SelectContent>
                 </Select>

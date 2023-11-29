@@ -8,7 +8,7 @@ import { Talks, TimeFormat } from "@/lib/types";
 import dayjs from "dayjs";
 import utc from 'dayjs/plugin/utc'
 import timezone from 'dayjs/plugin/timezone'
-import { addTalk } from "../actions/add-talk";
+import { addTalk, updateTalk, deleteTalk } from "../actions/add-talk";
 import { Button } from "@/components/ui/button";
 import { useFormState } from "react-dom";
 import { useEffect, useRef } from "react";
@@ -34,19 +34,25 @@ const config = {
 
 
 export default function AddTalkForm(props: AddTalkFormProps) {
-    const { title, description, datetime, location, type = 'create' } = props;
+    const { title, description, id, datetime, location, type = 'create' } = props;
     const { toast } = useToast()
     const buttonRef = useRef<HTMLButtonElement>(null)
-    const [state, formAction] = useFormState(addTalk, { success: false, message: '' })
+    const [state, formAction] = useFormState(type === 'create' ? addTalk : updateTalk, { success: false, message: '' })
     const getDateTime = (datetime: Date | null) => {
         if (!datetime) return '';
         return dayjs(datetime).tz("America/New_York").format(TimeFormat)
     }
+
+    useEffect(() => {
+        if (type === 'edit') {
+            updateTalk.bind(null, id)
+        }
+    }, [type, id])
+
     useEffect(() => {
         if (state.success) {
             toast({
-                title: 'Talk Created',
-                description: 'Talk has been created successfully',
+                description: state.message,
             })
             buttonRef.current?.click();
         } else if (!state.success && state.message) {
