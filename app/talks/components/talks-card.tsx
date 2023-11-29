@@ -11,7 +11,7 @@ interface TalksCardProps extends Talks { }
 
 export default async function TalksCard(props: TalksCardProps) {
     const session = await auth()
-    const { title, description, datetime, location, creator_id } = props;
+    const { id, title, description, datetime, location, creator_id } = props;
     return (
         <>
             <Card className=" relative shadow-md">
@@ -21,7 +21,7 @@ export default async function TalksCard(props: TalksCardProps) {
                     <Button variant={'destructive'} size={"icon"} className="absolute -top-4 right-8">
                         <TrashIcon />
                     </Button>
-                    {(session?.user as PavilionUser)?.id.toString() === creator_id.toString() && <DeleteConfirmationDialog>
+                    {(session?.user as PavilionUser)?.id.toString() === creator_id.toString() && <DeleteConfirmationDialog id={id}>
                         <Button variant={'destructive'} size={"icon"} className="absolute -top-4 right-8">
                             <TrashIcon />
                         </Button>

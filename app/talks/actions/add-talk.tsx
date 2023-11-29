@@ -23,7 +23,7 @@ const TalkSchema = z.object({
 })
 
 const DeleteSchema = z.object({
-    id: z.number()
+    id: z.coerce.number().int()
 })
 
 const FilterSchema = z.object({
@@ -60,7 +60,6 @@ export const updateTalk = async (prevState: any, form: FormData) => {
 }
 
 export const deleteTalk = async (prevState: any, form: FormData) => {
-    console.log('delete talk')
     const parsed = DeleteSchema.parse({ id: form.get('id') }) 
     await sql`DELETE FROM talks WHERE id = ${parsed.id}`
     revalidatePath('/talks')
