@@ -5,6 +5,7 @@ import { displayTime } from "@/lib/utils";
 import { TrashIcon, Pencil1Icon } from '@radix-ui/react-icons';
 import AddTalkDialog from "./add-talk-dialog";
 import { auth } from "@/app/auth";
+import DeleteConfirmationDialog from "./delete-confirmation-dialog";
 
 interface TalksCardProps extends Talks { }
 
@@ -18,8 +19,13 @@ export default async function TalksCard(props: TalksCardProps) {
                     <CardTitle className=" text-md" >{title}</CardTitle>
                     <CardDescription>{displayTime(datetime)} | {location}</CardDescription>
                     <Button variant={'destructive'} size={"icon"} className="absolute -top-4 right-8">
-                        <TrashIcon/>
+                        <TrashIcon />
                     </Button>
+                    {(session?.user as PavilionUser)?.id.toString() === creator_id.toString() && <DeleteConfirmationDialog>
+                        <Button variant={'destructive'} size={"icon"} className="absolute -top-4 right-8">
+                            <TrashIcon />
+                        </Button>
+                    </DeleteConfirmationDialog>}
                     {(session?.user as PavilionUser)?.id.toString() === creator_id.toString() && <AddTalkDialog data={props} type="edit">
                         <Button size="icon" className="absolute -top-4 -right-4" ><Pencil1Icon /></Button>
                     </AddTalkDialog >}
