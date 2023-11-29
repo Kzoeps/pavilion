@@ -13,7 +13,7 @@ export default async function TalksDisplay({ year }: TalksDisplayProps) {
             <section className="grid gap-x-6 gap-y-8 grid-cols-3">
                 {talks.map((talk) => {
                     return (
-                        <TalksCard key={talk.id} title={talk.title} description={talk.description} location={talk.location} datetime={talk.datetime} />
+                        <TalksCard key={talk.id} {...talk} />
                     )
                 })}
             </section>

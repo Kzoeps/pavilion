@@ -4,10 +4,26 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import AddTalkForm from "./add-talk-form";
 import { auth } from "@/app/auth";
 import { PRIVILEGED_USERS } from "@/lib/constants";
-import { PavilionUser, Roles } from "@/lib/types";
+import { PavilionUser, Roles, Talks } from "@/lib/types";
+import { ReactNode } from "react";
 
-export default async function AddTalkDialog() {
-    const session = await auth()
+interface AddTalkDialogProps{
+    type?: 'create' | 'edit';
+    children: ReactNode;
+    data?: Talks
+}
+export default async function AddTalkDialog({ children, type = 'create', data }: AddTalkDialogProps) {
+    const session = await auth();
+    const config = {
+        create: {
+            title: 'Create Talk',
+            description: 'Once you create a talk, everyone will be able to see it.'
+        },
+        edit: {
+            title: 'Edit Talk',
+            description: 'Edit your details and don\'t forget to save to update the talk.'
+        }
+    }
     if (!PRIVILEGED_USERS.includes((session?.user as PavilionUser)?.role as Roles)) {
         return null;
     }
@@ -15,16 +31,16 @@ export default async function AddTalkDialog() {
         <>
             <Dialog>
                 <DialogTrigger asChild>
-                    <Button>Create Talk</Button>
+                    { children || <Button>Create Talk</Button>}
                 </DialogTrigger>
                 <DialogContent className="sm:max-w-[425px]">
                     <DialogHeader>
-                        <DialogTitle>Create Talk</DialogTitle>
+                        <DialogTitle>{config[type].title}</DialogTitle>
                         <DialogDescription>
-                            Once you create a talk, everyone will be able to see it.
+                            {config[type].description}
                         </DialogDescription>
                     </DialogHeader>
-                    <AddTalkForm />
+                    <AddTalkForm type={type} {...(data || {})}/>
                 </DialogContent>
             </Dialog>
         </>
