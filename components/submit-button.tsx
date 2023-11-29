@@ -1,15 +1,15 @@
 'use client'
-import { Button } from "@/components/ui/button";
+import { Button, ButtonProps } from "@/components/ui/button";
 import { useFormStatus } from "react-dom";
 
-interface SubmitButtonProps {
+interface SubmitButtonProps extends ButtonProps{
     label: string;
     pendingLabel: string;
 }
 
-export default function SubmitButton({label, pendingLabel}: SubmitButtonProps) {
+export default function SubmitButton({label, pendingLabel, ...props}: SubmitButtonProps) {
     const { pending } = useFormStatus();
     return (
-        <Button type="submit" disabled={pending} aria-disabled={pending}>{pending ? pendingLabel : label}</Button>
+        <Button {...props} type="submit" disabled={pending} aria-disabled={pending}>{pending ? pendingLabel : label}</Button>
     )
 }

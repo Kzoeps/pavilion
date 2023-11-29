@@ -44,12 +44,6 @@ export default function AddTalkForm(props: AddTalkFormProps) {
     }
 
     useEffect(() => {
-        if (type === 'edit') {
-            updateTalk.bind(null, id)
-        }
-    }, [type, id])
-
-    useEffect(() => {
         if (state.success) {
             toast({
                 description: state.message,
@@ -66,6 +60,7 @@ export default function AddTalkForm(props: AddTalkFormProps) {
     return (
         <>
             <form action={formAction} className="grid py-4 gap-4">
+                <Input type="hidden" name="id" id="id" value={id}/>
                 <div className="grid grid-cols-4 items-center gap-4">
                     <Label className="text-right">
                         Title
@@ -82,7 +77,7 @@ export default function AddTalkForm(props: AddTalkFormProps) {
                     <Label className="text-right">
                         Date & Time
                     </Label>
-                    <Input defaultValue={getDateTime(datetime || new Date())} min={dayjs().format(TimeFormat)} type="datetime-local" required id="datetime" name="datetime" className="col-span-3" />
+                    <Input defaultValue={getDateTime(datetime || new Date())} min={datetime ? getDateTime(datetime) : dayjs().format(TimeFormat)} type="datetime-local" required id="datetime" name="datetime" className="col-span-3" />
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
                     <Label className="text-right">
@@ -92,7 +87,7 @@ export default function AddTalkForm(props: AddTalkFormProps) {
                 </div>
                 <DialogFooter>
                     <DialogClose>
-                        <Button ref={buttonRef} variant="outline">Cancel</Button>
+                        <Button type="reset" ref={buttonRef} variant="outline">Cancel</Button>
                     </DialogClose>
                     <SubmitButton label={config[type].submit}pendingLabel={config[type].submitPending}/>
                 </DialogFooter>

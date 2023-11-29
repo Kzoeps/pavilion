@@ -15,7 +15,7 @@ dayjs.extend(utc)
 dayjs.extend(timezone)
 
 const TalkSchema = z.object({
-    id: z.number().optional(),
+    id: z.coerce.number().int().optional(),
     title: z.string(),
     location: z.string(),
     datetime: z.coerce.date().min(dayjs().startOf('day').toDate(), { message: "Event can't be in the past (No time travelling)" }),
@@ -46,8 +46,6 @@ export const addTalk = async (prevState: any, form: FormData) => {
 }
 
 export const updateTalk = async (prevState: any, form: FormData) => {
-    console.log('enter update')
-    return { success: true, message: "Talk updated successfully" }
     const parsed = TalkSchema.parse({
         id: form.get('id'),
         title: form.get('title'),
@@ -62,6 +60,7 @@ export const updateTalk = async (prevState: any, form: FormData) => {
 }
 
 export const deleteTalk = async (prevState: any, form: FormData) => {
+    console.log('delete talk')
     const parsed = DeleteSchema.parse({ id: form.get('id') }) 
     await sql`DELETE FROM talks WHERE id = ${parsed.id}`
     revalidatePath('/talks')
