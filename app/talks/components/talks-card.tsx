@@ -18,7 +18,7 @@ export default async function TalksCard(props: TalksCardProps) {
             <Card className="relative shadow-md">
                 <CardHeader>
                     <CardTitle className="text-md flex justify-between align-center" >{title}
-                        {(session?.user as PavilionUser)?.role === Roles.STUDENT && <Link href={`/talks/${id}`}>
+                        {(session?.user as PavilionUser)?.role === Roles.STUDENT && <Link href={`/talks/${id}/notes`}>
                             <Button variant={'ghost'} size={'icon'}>
                                 <ArrowRightIcon />
                             </Button>

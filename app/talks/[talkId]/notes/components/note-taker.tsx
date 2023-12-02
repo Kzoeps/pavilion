@@ -25,11 +25,14 @@ export default function NoteTaker({talkId, noteId, content}: NoteTakerProps) {
     const initConfig: InitialConfigType = {
         namespace: 'myEditor',
         onError,
-        editorState: noteId ? content : undefined
+        editorState: content
     }
+
+
     const onChange = (editorState: any) => {
         const jsonEditorState = JSON.stringify(editorState)
         const data = {
+            noteId,
             content: jsonEditorState,
             talk_id: talkId
         }
