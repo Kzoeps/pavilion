@@ -27,6 +27,15 @@ export interface Talks {
   creator_id: number;
 }
 
+
+export interface Note {
+  id: string;
+  student_id: number; 
+  talk_id: number;
+  content: JSON;
+  created_at: Date
+}
+
 export type { UserSession as PavilionSession };
 
 export enum TimeZone {

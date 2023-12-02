@@ -2,7 +2,7 @@
 import { $getRoot, $getSelection } from 'lexical';
 import { useEffect, useRef } from 'react';
 
-import { LexicalComposer } from '@lexical/react/LexicalComposer'
+import { InitialConfigType, LexicalComposer } from '@lexical/react/LexicalComposer'
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin'
 import { PlainTextPlugin } from '@lexical/react/LexicalPlainTextPlugin'
 import { ContentEditable } from '@lexical/react/LexicalContentEditable'
@@ -14,19 +14,39 @@ const onError = (e: any) => {
     console.log(e)
 }
 
-export default function NoteTaker() {
+interface NoteTakerProps {
+    talkId: string;
+    noteId?: string;
+    content?: string;
+}
+
+export default function NoteTaker({talkId, noteId, content}: NoteTakerProps) {
     const debounceRef = useRef<any>(null)
-    const initConfig = {
+    const initConfig: InitialConfigType = {
         namespace: 'myEditor',
         onError,
+        editorState: noteId ? content : undefined
     }
     const onChange = (editorState: any) => {
         const jsonEditorState = JSON.stringify(editorState)
+        const data = {
+            content: jsonEditorState,
+            talk_id: talkId
+        }
         if (debounceRef.current) {
             clearTimeout(debounceRef.current)
         }
         debounceRef.current = setTimeout(() => {
-        }, 1000)
+            fetch('/api/notes', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            }).then((res) => {
+                console.log(res)
+            })
+        }, 2000)
     }
     return (
         <>
