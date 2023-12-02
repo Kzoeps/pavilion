@@ -63,4 +63,15 @@ CREATE TABLE IF NOT EXISTS talks (
   FOREIGN KEY (creator_id) REFERENCES users(id),
 
   PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS notes (
+  id UUID PRIMARY KEY,
+  student_id INT NOT NULL,
+  talk_id INT NOT NULL,
+  content JSONB,
+  created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+
+  FOREIGN KEY (student_id) REFERENCES users(id),
+  FOREIGN KEY (talk_id) REFERENCES talks(id)
 )
