@@ -39,6 +39,7 @@ export default function NoteTaker({talkId, noteId, content}: NoteTakerProps) {
         if (debounceRef.current) {
             clearTimeout(debounceRef.current)
         }
+        // we only call one api here since the post request creates if ID is not present and updates if ID is present; see the api for implementation
         debounceRef.current = setTimeout(() => {
             fetch('/api/notes', {
                 method: 'POST',
