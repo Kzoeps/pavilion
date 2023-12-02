@@ -1,6 +1,6 @@
 'use client'
 import { $getRoot, $getSelection } from 'lexical';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 import { LexicalComposer } from '@lexical/react/LexicalComposer'
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin'
@@ -15,12 +15,18 @@ const onError = (e: any) => {
 }
 
 export default function NoteTaker() {
+    const debounceRef = useRef<any>(null)
     const initConfig = {
         namespace: 'myEditor',
         onError,
     }
     const onChange = (editorState: any) => {
-        console.log(editorState)
+        const jsonEditorState = JSON.stringify(editorState)
+        if (debounceRef.current) {
+            clearTimeout(debounceRef.current)
+        }
+        debounceRef.current = setTimeout(() => {
+        }, 1000)
     }
     return (
         <>
