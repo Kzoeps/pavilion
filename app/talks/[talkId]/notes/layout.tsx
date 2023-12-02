@@ -1,4 +1,6 @@
-export default function NoteLayout() {
+import { ReactNode } from "react";
+
+export default function NoteLayout({children}: {children: ReactNode }) {
     return (
         <>
             <section>
@@ -6,7 +8,8 @@ export default function NoteLayout() {
                 <p>kyoezer@conncoll.edu</p>
             </section>
             <section className=" my-6">
-                <h1 className="text-3xl lg:text-4xl scroll-m-20 font-extrabold tracking-tight" >Quantum computing with McGregor</h1>
+                <h1 className="text-3xl lg:text-4xl scroll-m-20 font-extrabold tracking-tight">Quantum computing with McGregor</h1>
+                {children}
             </section>
         </>
     )

@@ -1,7 +1,9 @@
+import NoteTaker from "./components/note-taker";
+
 export default function TalksNotes() {
     return (
         <>
-            <h1>Notes</h1> 
+            <NoteTaker/>
         </>
     )
 }
