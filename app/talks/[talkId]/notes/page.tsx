@@ -6,6 +6,7 @@ import { redirect } from "next/navigation";
 import { BaseTalkParams } from "../../lib/types";
 import { v4 as uuid } from 'uuid';
 import { Suspense } from "react";
+import TextEditor from "./components/text-editor";
 
 
 /**
@@ -37,6 +38,7 @@ export default async function TalksNotes({ params }: { params: BaseTalkParams })
     return (
         <>
             <Suspense fallback={<p>loading</p>}>
+                {/* <TextEditor/> */}
                 <NoteTaker noteId={noteId} content={content} talkId={talkId} />
             </Suspense>
         </>
