@@ -1,7 +1,10 @@
-export default function StudentPage() {
+import StudentNotesInfo from "../components/student-notes-info";
+
+export default function StudentPage({params}: {params: {studentId: string}}) {
+    const {studentId} = params
     return (
         <>
-            Student here
+            <StudentNotesInfo id={studentId} />
         </>
     )
 }
