@@ -26,7 +26,7 @@ export default function FilterForm({ currentClassYear, currentAdvisor, faculty }
                     <SelectGroup>
                         <SelectLabel>Class Year</SelectLabel>
                         <SelectItem value="all">All</SelectItem>
-                        {getCurrentClassYears().map(year => <SelectItem onSelect={(option) => console.log(option)} key={year} value={year}>{year}</SelectItem>)}
+                        {getCurrentClassYears().map(year => <SelectItem key={year} value={year}>{year}</SelectItem>)}
                     </SelectGroup>
                 </SelectContent>
             </Select>

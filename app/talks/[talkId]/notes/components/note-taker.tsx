@@ -31,7 +31,7 @@ export default function NoteTaker({ talkId, noteId, content }: NoteTakerProps) {
                 },
                 body: JSON.stringify(data)
             }).then((res) => {
-                console.log(res)
+                // console.log(res)
             })
         }, 2000)
     }

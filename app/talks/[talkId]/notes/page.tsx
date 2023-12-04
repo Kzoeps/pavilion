@@ -31,10 +31,8 @@ export default async function TalksNotes({ params }: { params: BaseTalkParams })
         if (rows.length > 0) {
             noteId = rows[0].id
             content = JSON.stringify(rows[0].content)
-            console.log(rows)
         }
     }
-    console.log(noteId, content)
     return (
         <>
             <Suspense fallback={<p>loading</p>}>

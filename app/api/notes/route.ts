@@ -14,7 +14,6 @@ export async function POST(req: NextRequest, res: NextResponse) {
     const userId = await getUserId()
     const { content, talk_id, noteId} = await req.json();
     const response = await sql`INSERT INTO notes (id, content, talk_id, student_id) VALUES (${noteId},${content}, ${talk_id}, ${userId}) ON CONFLICT (id) DO UPDATE SET content = ${content}`
-    console.log(response)
     return Response.json({ message: "ok" })
 }
 
