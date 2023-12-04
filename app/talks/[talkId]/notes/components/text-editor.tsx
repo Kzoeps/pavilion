@@ -15,11 +15,11 @@ import {
     ToolbarPlugin,
     UnderlineButton
 } from 'verbum';
-export default function TextEditor() {
+export default function TextEditor({ initialState, onChange }: { initialState?: string, onChange: (state: string) => void }) {
     return (
         <>
-            <EditorComposer>
-                <Editor isEditable onChange={(state) => console.log('dasfads')}>
+            <EditorComposer initialEditorState={initialState}>
+                <Editor isEditable onChange={onChange}>
                     <ToolbarPlugin>
                         <FontFamilyDropdown />
                         <Divider />
