@@ -63,7 +63,8 @@ export function DataTable<TData, TValue>({
                             table.getRowModel().rows.map((row) => {
                                 return <TableRow
                                     onClick={() => {
-                                        router.push(`/dashboard/${row.getValue('id')}`)
+                                        // TODO: implement this
+                                        // router.push(`/dashboard/${row.getValue('id')}`)
                                     }}
                                     className="cursor-pointer hover:bg-gray-200 transition-colors"
                                     key={row.id}
@@ -89,7 +90,6 @@ export function DataTable<TData, TValue>({
 
 
             </div>
-            <DataTablePagination table={table} />
         </>
     )
 }
