@@ -34,7 +34,6 @@ interface StudentProgressProps {
     id: string;
 }
 export default async function StudentProgress({ id }: StudentProgressProps) {
-    const session = await auth() as PavilionSession;
     const { rows } = await sql`SELECT COUNT(id) FROM notes WHERE student_id = ${id}`
     const totalNotes = +rows?.[0]?.count || 0;
     const approvedNotes = 0;
