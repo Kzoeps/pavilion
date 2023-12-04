@@ -5,7 +5,7 @@ export default function Student() {
         <>
             <h3 className="text-2xl font-medium">Karma Zoepa Yoezer (Class of 2025)</h3>
             <p className=" italic">kyoezer@conncoll.edu</p>
-            <StudentProgress totalNotes={6} approvedNotes={4}/>
+            <StudentProgress/>
 
         </>
     )

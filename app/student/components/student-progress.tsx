@@ -1,3 +1,7 @@
+import { auth } from "@/app/auth";
+import { PavilionSession } from "@/lib/types";
+import { sql } from "@vercel/postgres";
+
 const APPROVED_COLOR = 'green-500';
 const UNAPPROVED_COLOR = 'yellow-100';
 const APPROVED_BG_COLOR = `bg-${APPROVED_COLOR}`;
@@ -35,10 +39,12 @@ const getUnapprovedNotes = (totalNotes: number, approvedNotes: number) => {
 }
 
 interface StudentProgressProps {
-    totalNotes: number;
-    approvedNotes: number;
 }
-export default function StudentProgress({ totalNotes, approvedNotes }: StudentProgressProps) {
+export default async function StudentProgress(props: StudentProgressProps) {
+    const session = await auth() as PavilionSession; 
+    const { rows } = await sql`SELECT COUNT(id) FROM notes WHERE student_id = ${session.user.id}`
+    const totalNotes = rows.length;
+    const approvedNotes = 4;
     return (
         <>
             <h1 className="text-4xl font-bold mt-2">Progress: (<span className={`text-${APPROVED_COLOR}`}>{approvedNotes}</span>+<span className={`text-yellow-300`}>{getUnapprovedNotes(totalNotes, approvedNotes)}</span>)/10</h1>
