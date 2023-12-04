@@ -30,6 +30,10 @@ const renderProgress = (totalNotes: number, approvedNotes: number) => {
     })
 }
 
+const getUnapprovedNotes = (totalNotes: number, approvedNotes: number) => {
+    return totalNotes - approvedNotes;
+}
+
 interface StudentProgressProps {
     totalNotes: number;
     approvedNotes: number;
@@ -37,7 +41,7 @@ interface StudentProgressProps {
 export default function StudentProgress({ totalNotes, approvedNotes }: StudentProgressProps) {
     return (
         <>
-            <h1 className="text-4xl font-bold mt-2">Progress: (<span className={`text-${APPROVED_COLOR}`}>4</span>+<span className={`text-yellow-300`}>2</span>)/10</h1>
+            <h1 className="text-4xl font-bold mt-2">Progress: (<span className={`text-${APPROVED_COLOR}`}>{approvedNotes}</span>+<span className={`text-yellow-300`}>{getUnapprovedNotes(totalNotes, approvedNotes)}</span>)/10</h1>
             <section className="flex gap-4 mt-4">
                 <div className="flex items-center gap-3">
                     <div className={`w-4 h-4 ${APPROVED_BG_COLOR}`} />
@@ -49,7 +53,7 @@ export default function StudentProgress({ totalNotes, approvedNotes }: StudentPr
                 </div>
             </section>
             <div className="w-full grid grid-cols-10 h-6 bg-slate-400 rounded-md mt-2">
-                {renderProgress(8, 4)}
+                {renderProgress(totalNotes, approvedNotes)}
             </div>
         </>
     )
