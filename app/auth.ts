@@ -21,23 +21,23 @@ const authOptions: NextAuthConfig = {
     signIn: "/login",
   },
   callbacks: {
-    // authorized: async ({ request, auth }) => {
-    //   if (
-    //     ADMIN_PATHS.find((path) => request.nextUrl.pathname.startsWith(path))
-    //   ) {
-    //     return !!PRIVILEGED_USERS.includes(
-    //       (auth?.user as PavilionUser)?.role as Roles
-    //     );
-    //   }
-    //   if (
-    //     AUTH_PATHS.find((path) => request.nextUrl.pathname.startsWith(path))
-    //   ) {
-    //     if (auth?.user) {
-    //       return NextResponse.redirect(new URL("/", request.url));
-    //     }
-    //   }
-    //   return true;
-    // },
+    authorized: async ({ request, auth }) => {
+      if (
+        ADMIN_PATHS.find((path) => request.nextUrl.pathname.startsWith(path))
+      ) {
+        return !!PRIVILEGED_USERS.includes(
+          (auth?.user as PavilionUser)?.role as Roles
+        );
+      }
+      if (
+        AUTH_PATHS.find((path) => request.nextUrl.pathname.startsWith(path))
+      ) {
+        if (auth?.user) {
+          return NextResponse.redirect(new URL("/", request.url));
+        }
+      }
+      return true;
+    },
     signIn: async ({ profile }) => {
       // See utils.ts [checkChangesInProfile] for more details
       const { email } = profile as Profile;
