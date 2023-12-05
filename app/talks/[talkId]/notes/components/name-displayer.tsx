@@ -1,3 +1,4 @@
+import { Switch } from "@/components/ui/switch";
 import { sql } from "@vercel/postgres";
 
 interface NameDisplayerProps {
@@ -10,9 +11,15 @@ export default async function NameDisplayer({ studentId }: NameDisplayerProps) {
     const email = rows?.[0]?.email || 'Email here'
     return (
         <>
-            <section className="mt-4">
-                <h3 className="scroll-m-20 text-2xl tracking-tight">{name} (Class of {classYear})</h3>
-                <p>{email}</p>
+            <section className="mt-4 flex justify-between items-center">
+                <div>
+                    <h3 className="scroll-m-20 text-2xl tracking-tight">{name} (Class of {classYear})</h3>
+                    <p>{email}</p>
+                </div>
+                <div className="flex gap-3 items-center border border-solid rounded-full p-4">
+                    <Switch className="data-[state=checked]:bg-green-500" />
+                    <h4 className="text-xl">Approved</h4>
+                </div>
             </section>
         </>
     )
