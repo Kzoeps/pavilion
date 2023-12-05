@@ -22,11 +22,14 @@ export default async function StudentsDisplay({ filterParams }: { filterParams: 
     const queryClassYear = getClassYear(class_year);
     let response;
     if ([undefined, 'all', null].includes(advisor_id) && queryClassYear === false) {
+        console.log('all query')
         response = await sql<ProgressProfile>`SELECT U.id, U.name, U.email, U.class_year, U.advisor_id, COUNT(N.id) as NOTES_COUNT FROM users U LEFT JOIN notes N ON U.id = N.student_id WHERE U.role = 'student' GROUP BY U.id`
     } else if ([undefined, 'all', null].includes(advisor_id)) {
         // response = await sql<ProgressProfile>`SELECT id, name, email, class_year, advisor_id FROM users WHERE role = 'student' AND class_year = ${queryClassYear}`
         response = await sql<ProgressProfile>`SELECT U.id, U.name, U.email, U.class_year, U.advisor_id, COUNT(N.id) as NOTES_COUNT FROM users U LEFT JOIN notes N ON U.id = N.student_id WHERE U.role = 'student' AND U.class_year=${queryClassYear} GROUP BY U.id`
         // response = await sql<ProgressProfile>`SELECT U.id, U.name, U.email, U.class_year, U.advisor_id, COUNT(N.id) as NOTES_COUNT FROM users U LEFT JOIN notes N ON U.id = N.student_id WHERE U.role = 'student' AND U.class_year=${queryClassYear} GROUP BY U.id `
+    } else if (queryClassYear === false) {
+        response = await sql<ProgressProfile>`SELECT U.id, U.name, U.email, U.class_year, U.advisor_id, COUNT(N.id) as NOTES_COUNT FROM users U LEFT JOIN notes N ON U.id = N.student_id WHERE U.role = 'student' AND U.advisor_id = ${advisor_id} GROUP BY U.id`
     } else {
         // response = await sql<ProgressProfile>`SELECT U.id, U.name, U.email, U.class_year, U.advisor_id, COUNT(N.id) as NOTES_COUNT FROM users U LEFT JOIN notes N ON U.id = N.student_id WHERE U.role = 'student' AND U.advisor_id = ${advisor_id} U.class_year=${queryClassYear} GROUP BY U.id AND `
         response = await sql<ProgressProfile>`SELECT U.id, U.name, U.email, U.class_year, U.advisor_id, COUNT(N.id) as NOTES_COUNT FROM users U LEFT JOIN notes N ON U.id = N.student_id WHERE U.role = 'student' AND U.class_year=${queryClassYear} AND U.advisor_id = ${advisor_id} GROUP BY U.id`
