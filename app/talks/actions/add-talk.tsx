@@ -70,3 +70,11 @@ export const filterTalk = async (form: FormData) => {
     const parsed = FilterSchema.parse({ year: form.get('talkYear') })
     redirect(`/talks?year=${parsed.year}`)
 }
+
+export const approveTalk = async ( form: FormData) => {
+    const p = new Promise((resolve) => {
+        setTimeout(() => {resolve('hh')}, 2000)
+    })
+    await p
+    return { success: true, message: 'Talk approved successfully'}
+}

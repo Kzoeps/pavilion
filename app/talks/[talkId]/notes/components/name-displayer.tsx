@@ -1,10 +1,16 @@
+import { auth } from "@/app/auth";
 import { Switch } from "@/components/ui/switch";
+import { PRIVILEGED_USERS } from "@/lib/constants";
+import { PavilionSession, Roles } from "@/lib/types";
 import { sql } from "@vercel/postgres";
+import ApprovalSwitch from "./approval-switch";
 
 interface NameDisplayerProps {
     studentId: string;
 }
 export default async function NameDisplayer({ studentId }: NameDisplayerProps) {
+    const session = await auth() as PavilionSession
+    const canApprove = PRIVILEGED_USERS.includes(session?.user?.role as Roles)
     const { rows } = await sql`SELECT name, class_year, email FROM users WHERE id = ${studentId}`
     const name = rows?.[0]?.name || 'Name here'
     const classYear = rows?.[0]?.class_year || 'Class year here'
@@ -16,10 +22,7 @@ export default async function NameDisplayer({ studentId }: NameDisplayerProps) {
                     <h3 className="scroll-m-20 text-2xl tracking-tight">{name} (Class of {classYear})</h3>
                     <p>{email}</p>
                 </div>
-                <div className="flex gap-3 items-center border border-solid rounded-full p-4">
-                    <Switch className="data-[state=checked]:bg-green-500" />
-                    <h4 className="text-xl">Approved</h4>
-                </div>
+                {canApprove && <ApprovalSwitch/>}
             </section>
         </>
     )
