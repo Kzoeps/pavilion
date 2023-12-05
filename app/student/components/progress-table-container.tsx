@@ -12,19 +12,27 @@ const dummyData = [
     }
 ]
 
+interface ProgressTableData {
+    id: string;
+    talk_id: number;
+    title: string;
+    datetime: string;
+    approved: boolean;
+}
+
 interface ProgressTableProps {
     id: string
 }
 
 export default async function ProgressTable({id}: ProgressTableProps) {
-    const { rows } = await sql`SELECT N.id, T.title, T.datetime FROM notes N LEFT JOIN talks T ON N.talk_id = T.id WHERE student_id = ${id}`
+    const { rows } = await sql`SELECT N.id, T.title, T.datetime, N.talk_id FROM notes N LEFT JOIN talks T ON N.talk_id = T.id WHERE student_id = ${id}`
     let data = rows.map(row => {
         return {
             ...row,
             approved: true,
             datetime: displayTime(row.datetime, "MMMM D, YYYY") 
         }
-    })
+    }) as ProgressTableData[]
     return (
         <>
             <section className="mt-4">
