@@ -71,10 +71,10 @@ export const filterTalk = async (form: FormData) => {
     redirect(`/talks?year=${parsed.year}`)
 }
 
-export const approveTalk = async ( form: FormData) => {
+export const approveTalk = async (prevState: any, form: FormData) => {
     const p = new Promise((resolve) => {
         setTimeout(() => {resolve('hh')}, 2000)
     })
     await p
-    return { success: true, message: 'Talk approved successfully'}
+    return { approved: true, success: true, message: 'Talk approved successfully'}
 }

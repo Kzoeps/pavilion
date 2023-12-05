@@ -33,7 +33,8 @@ export interface Note {
   student_id: number; 
   talk_id: number;
   content: JSON;
-  created_at: Date
+  created_at: Date;
+  approved: boolean;
 }
 
 export type { UserSession as PavilionSession };
