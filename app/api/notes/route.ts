@@ -3,6 +3,7 @@ import { PavilionUser } from "@/lib/types";
 import { NextRequest, NextResponse } from "next/server";
 import { v4 as uuid } from "uuid";
 import { sql } from "@vercel/postgres";
+import { revalidatePath } from "next/cache";
 
 const getUserId = async () => {
     const session = await auth()
@@ -14,6 +15,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
     const userId = await getUserId()
     const { content, talk_id, noteId} = await req.json();
     const response = await sql`INSERT INTO notes (id, content, talk_id, student_id) VALUES (${noteId},${content}, ${talk_id}, ${userId}) ON CONFLICT (id) DO UPDATE SET content = ${content}`
+    revalidatePath('/dashboard')
     return Response.json({ message: "ok" })
 }
 
