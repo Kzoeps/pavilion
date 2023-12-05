@@ -1,8 +1,8 @@
 import { sql } from "@vercel/postgres";
-import StudentNotesInfo from "../components/student-notes-info";
-import StudentProgress from "../components/student-progress";
 import { Suspense } from "react";
 import ProgressTable from "../components/progress-table-container";
+import StudentNotesInfo from "../components/student-notes-info";
+import StudentProgress from "../components/student-progress";
 
 export default async function StudentPage({ params }: { params: { studentId: string } }) {
     const { studentId } = params
