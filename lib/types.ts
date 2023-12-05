@@ -11,7 +11,7 @@ export interface BasicUser {
   name: string;
 }
 export type UserSession = {
-  user: { role: string; id: string };
+  user: { role: Roles; id: string };
 } & DefaultSession;
 export interface PavilionUser extends User {
   id: string;

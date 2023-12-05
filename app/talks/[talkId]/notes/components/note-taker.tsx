@@ -7,9 +7,10 @@ interface NoteTakerProps {
     talkId: string;
     noteId?: string;
     content?: string;
+    isEditable?: boolean;
 }
 
-export default function NoteTaker({ talkId, noteId, content }: NoteTakerProps) {
+export default function NoteTaker({ talkId, isEditable = true, noteId, content }: NoteTakerProps) {
     const debounceRef = useRef<any>(null)
 
     const onChange = (editorState: string) => {
@@ -38,7 +39,7 @@ export default function NoteTaker({ talkId, noteId, content }: NoteTakerProps) {
     return (
         <>
             <Suspense fallback={<div>Loading...</div>}>
-                <TextEditor initialState={content} onChange={onChange} />
+                <TextEditor isEditable={isEditable} initialState={content} onChange={onChange} />
             </Suspense>
         </>
     )

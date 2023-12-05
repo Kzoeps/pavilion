@@ -15,12 +15,18 @@ import {
     ToolbarPlugin,
     UnderlineButton
 } from 'verbum';
-export default function TextEditor({ initialState, onChange }: { initialState?: string, onChange: (state: string) => void }) {
+interface TextEditorProps {
+    initialState?: string;
+    isEditable?: boolean;
+    onChange: (state: string) => void
+}
+
+export default function TextEditor({ initialState, onChange, isEditable = true }: TextEditorProps) {
     return (
         <>
             <EditorComposer initialEditorState={initialState}>
-                <Editor isEditable onChange={onChange}>
-                    <ToolbarPlugin>
+                <Editor isEditable={isEditable} onChange={onChange}>
+                    {isEditable && <ToolbarPlugin>
                         <FontFamilyDropdown />
                         <Divider />
                         <BoldButton />
@@ -33,7 +39,7 @@ export default function TextEditor({ initialState, onChange }: { initialState?: 
                         <TextFormatDropdown />
                         <Divider />
                         <AlignDropdown />
-                    </ToolbarPlugin>
+                    </ToolbarPlugin>}
                 </Editor>
 
             </EditorComposer>
