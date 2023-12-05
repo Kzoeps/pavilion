@@ -1,14 +1,15 @@
+import { sql } from "@vercel/postgres";
 import { ReactNode } from "react";
 
-export default function NoteLayout({children}: {children: ReactNode }) {
+export default async function NoteLayout({ children, params }: { params: { talkId: string }, children: ReactNode }) {
+    const { talkId } = params
+    const { rows } = await sql`SELECT title FROM talks WHERE id = ${talkId}`
     return (
         <>
-            <section>
-                <h3 className=" scroll-m-20 text-2xl tracking-tight">Karma Yoezer (Class of 2025)</h3>
-                <p>kyoezer@conncoll.edu</p>
-            </section>
+
             <section className=" my-6">
-                <h1 className="text-3xl lg:text-4xl scroll-m-20 font-extrabold tracking-tight">Quantum computing with McGregor</h1>
+                <h1 className="text-3xl lg:text-4xl scroll-m-20 font-extrabold tracking-tight">{rows?.[0]?.title || 'Talk title here'}</h1>
+                
                 {children}
             </section>
         </>
