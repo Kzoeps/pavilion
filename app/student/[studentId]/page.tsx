@@ -28,7 +28,7 @@ export default async function StudentPage({ params }: { params: { studentId: str
                 <StudentProgress id={studentId} />
             </Suspense>
             <Suspense fallback={<div>Loading</div>}>
-                <ProgressTable />
+                <ProgressTable id={studentId}/>
             </Suspense>
         </>
     )

@@ -63,7 +63,7 @@ export const localizeTime = (datetime: Date) => {
   return localized
 }
 
-export const displayTime = (datetime: Date) => {
+export const displayTime = (datetime: Date, format?: string) => {
   const localized = localizeTime(datetime)
-  return localized.format("MMMM D, YYYY, h:mm A")
+  return localized.format(format || "MMMM D, YYYY, h:mm A")
 }
