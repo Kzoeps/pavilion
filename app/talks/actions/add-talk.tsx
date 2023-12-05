@@ -30,6 +30,10 @@ const FilterSchema = z.object({
     year: z.coerce.number().int()
 })
 
+const ApprovalSchema = z.object({
+    approved: z.literal('on').or(z.null())
+})
+
 export const addTalk = async (prevState: any, form: FormData) => {
     const session = await auth()
     const parsed = TalkSchema.parse({
@@ -60,7 +64,7 @@ export const updateTalk = async (prevState: any, form: FormData) => {
 }
 
 export const deleteTalk = async (prevState: any, form: FormData) => {
-    const parsed = DeleteSchema.parse({ id: form.get('id') }) 
+    const parsed = DeleteSchema.parse({ id: form.get('id') })
     await sql`DELETE FROM talks WHERE id = ${parsed.id}`
     revalidatePath('/talks')
     return { success: true, message: "Talk deleted successfully" }
@@ -71,10 +75,9 @@ export const filterTalk = async (form: FormData) => {
     redirect(`/talks?year=${parsed.year}`)
 }
 
-export const approveTalk = async (prevState: any, form: FormData) => {
-    const p = new Promise((resolve) => {
-        setTimeout(() => {resolve('hh')}, 2000)
-    })
-    await p
-    return { approved: true, success: true, message: 'Talk approved successfully'}
+export const approveTalk = async (id: string, prevState: any, form: FormData) => {
+    const parsed = ApprovalSchema.parse({ approved: form.get('approved') })
+    const approved = parsed.approved === 'on' ? true : false
+    await sql`UPDATE notes SET approved = ${approved} WHERE id = ${id}`
+    return { approved: true, success: true, message: 'Talk approved successfully' }
 }

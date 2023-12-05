@@ -15,7 +15,7 @@ export default async function NameDisplayer({ studentId }: NameDisplayerProps) {
     const email = rows?.[0]?.email || 'Email here'
     return (
         <>
-                <div>
+                <div className="">
                     <h3 className="scroll-m-20 text-2xl tracking-tight">{name} (Class of {classYear})</h3>
                     <p>{email}</p>
                 </div>

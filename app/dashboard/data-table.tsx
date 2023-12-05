@@ -63,7 +63,7 @@ export function DataTable<TData, TValue>({
                             table.getRowModel().rows.map((row) => {
                                 return <TableRow
                                     onClick={() => {
-                                        router.push(`/dashboard/${row.getValue('id')}`)
+                                        router.push(`/student/${row.getValue('id')}`)
                                     }}
                                     className="cursor-pointer hover:bg-gray-200 transition-colors"
                                     key={row.id}

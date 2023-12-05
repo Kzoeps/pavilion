@@ -29,7 +29,6 @@ export default async function ProgressTable({id}: ProgressTableProps) {
     let data = rows.map(row => {
         return {
             ...row,
-            approved: true,
             datetime: displayTime(row.datetime, "MMMM D, YYYY") 
         }
     }) as ProgressTableData[]
