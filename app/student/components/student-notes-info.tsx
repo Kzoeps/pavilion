@@ -1,12 +1,13 @@
 import { sql } from "@vercel/postgres";
 import { APPROVED_BG_COLOR, UNAPPROVED_COLOR, APPROVED_COLOR, UNAPPROVED_BG_COLOR } from "../lib/constants";
 import { getUnapprovedNotes } from "../lib/utils";
+import { getNotesCount } from "../lib/sql-calls";
 
 interface StudentNotesInfoProps {
     id: string;
 }
 export default async function StudentNotesInfo({ id }: StudentNotesInfoProps) {
-    const { rows } = await sql`SELECT COUNT(id), COUNT(approved) AS approved_count FROM notes WHERE student_id = ${id}`
+    const { rows } = await getNotesCount(id)
     const approvedNotes = +rows?.[0]?.approved_count || 0
     const totalNotes = +rows?.[0]?.count || 0
     return (

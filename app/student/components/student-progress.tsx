@@ -1,7 +1,4 @@
-import { auth } from "@/app/auth";
-import { PavilionSession } from "@/lib/types";
-import { sql } from "@vercel/postgres";
-import { APPROVED_BG_COLOR, UNAPPROVED_BG_COLOR } from "../lib/constants";
+import { getNotesCount } from "../lib/sql-calls";
 
 const renderProgress = (totalNotes: number, approvedNotes: number) => {
     return Array.from(Array(10)).map((_, i) => {
@@ -34,7 +31,7 @@ interface StudentProgressProps {
     id: string;
 }
 export default async function StudentProgress({ id }: StudentProgressProps) {
-    const { rows } = await sql`SELECT COUNT(id), COUNT(approved) AS approved_count FROM notes WHERE student_id = ${id}`
+    const { rows } = await getNotesCount(id)
     const totalNotes = +rows?.[0]?.count || 0;
     const approvedNotes = +rows?.[0]?.approved_count || 0;
     return (
