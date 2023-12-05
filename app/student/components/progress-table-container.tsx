@@ -25,7 +25,7 @@ interface ProgressTableProps {
 }
 
 export default async function ProgressTable({id}: ProgressTableProps) {
-    const { rows } = await sql`SELECT N.id, T.title, T.datetime, N.talk_id FROM notes N LEFT JOIN talks T ON N.talk_id = T.id WHERE student_id = ${id}`
+    const { rows } = await sql`SELECT N.id, N.approved, T.title, T.datetime, N.talk_id FROM notes N LEFT JOIN talks T ON N.talk_id = T.id WHERE student_id = ${id}`
     let data = rows.map(row => {
         return {
             ...row,
