@@ -22,6 +22,11 @@ const authOptions: NextAuthConfig = {
   },
   callbacks: {
     authorized: async ({ request, auth }) => {
+      const user = auth?.user as PavilionUser;
+      // only allow the student to view their own progress and no one else's
+      if (request.nextUrl.pathname.startsWith("/student") && user?.role === Roles.STUDENT && request.nextUrl.pathname !== `/student/${user?.id}`) {
+        return NextResponse.redirect(new URL(`/student/${user?.id}`, request.url));
+      }
       if (
         ADMIN_PATHS.find((path) => request.nextUrl.pathname.startsWith(path))
       ) {
