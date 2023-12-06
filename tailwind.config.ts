@@ -16,6 +16,9 @@ const config: Config = {
       },
     },
     extend: {
+      fontFamily: {
+        archivo: ["var(--font-archivo-black)"],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
