@@ -78,6 +78,16 @@ export const filterTalk = async (form: FormData) => {
 export const approveTalk = async (id: string, prevState: any, form: FormData) => {
     const parsed = ApprovalSchema.parse({ approved: form.get('approved') })
     const approved = parsed.approved === 'on' ? true : false
-    await sql`UPDATE notes SET approved = ${approved} WHERE id = ${id}`
+    // the commented out statement doesn't seem to function properly
+    // await sql`UPDATE notes SET approved = ${approved} WHERE id = ${id}`
+    if (approved) {
+        const res = await sql`UPDATE notes SET approved = 1 WHERE id = ${id} RETURNING id, approved`
+        console.log(res)
+        
+    } else {
+        const res = await sql`UPDATE notes SET approved = 0 WHERE id = ${id} RETURNING id, approved`
+        console.log(res)
+        
+    }
     return { approved: true, success: true, message: 'Talk approved successfully' }
 }
