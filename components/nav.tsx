@@ -1,9 +1,11 @@
 import Link from "next/link"
+import Image from "next/image"
 import ProfileAvatar from "./profile-avatar"
 import { auth, signIn } from "@/app/auth"
 import { Button } from "./ui/button"
 import { PavilionSession, Roles } from "@/lib/types"
 import { ALL_USERS, PRIVILEGED_USERS } from "@/lib/constants"
+import Pav from '@/public/pav.jpeg';
 
 const NavItems: { label: string, href: string, roles: Roles[] }[] = [
     {
@@ -38,7 +40,7 @@ export default async function Nav() {
         <nav className=" bg-gray-100 border-b-2 border-s-gray-300 text-slate-900 p-4 flex justify-between items-center">
             {/* Logo or Brand */}
             <div className="flex justify-between items-center gap-10">
-                <Link href={"/"} className="text-lg font-semibold">Logo</Link>
+                <Link href={"/"} className="text-lg font-semibold"><Image width={50} loading="lazy" src={Pav} alt="image of pavilion logo" /></Link>
 
                 {/* Links */}
                 <div className="flex items-center space-x-4">
