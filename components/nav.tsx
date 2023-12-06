@@ -38,7 +38,7 @@ export default async function Nav() {
         <nav className=" bg-gray-100 border-b-2 border-s-gray-300 text-slate-900 p-4 flex justify-between items-center">
             {/* Logo or Brand */}
             <div className="flex justify-between items-center gap-10">
-                <Link href={"#"} className="text-lg font-semibold">Logo</Link>
+                <Link href={"/"} className="text-lg font-semibold">Logo</Link>
 
                 {/* Links */}
                 <div className="flex items-center space-x-4">
