@@ -33,9 +33,6 @@ const renderNavItems = (userRole: Roles) => {
 
 export default async function Nav() {
     const session = await auth() as PavilionSession
-    if (!session?.user) {
-        return null
-    }
     return (
         <nav className=" bg-gray-100 border-b-2 border-s-gray-300 text-slate-900 p-4 flex justify-between items-center">
             {/* Logo or Brand */}
@@ -44,17 +41,7 @@ export default async function Nav() {
 
                 {/* Links */}
                 <div className="flex items-center space-x-4">
-                    {renderNavItems(session?.user?.role as Roles)}
-                    {/* <Link href="/dashboard" className="hover:underline underline-offset-8">
-                       Dashboard 
-                    </Link>
-                    <Link href="/talks" className="hover:underline underline-offset-8">
-                        Talks
-                    </Link>
-                    <Link href="#" className="hover:underline underline-offset-8">
-                        Services
-                    </Link> */}
-                    {/* Add more links as needed */}
+                    {!!session?.user && renderNavItems(session?.user?.role as Roles)}
                 </div>
             </div>
             { session?.user ? <ProfileAvatar/>: <form action={async () => {
